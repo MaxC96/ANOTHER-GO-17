@@ -1,0 +1,6 @@
+GSG v1.4.168
+
+- Replaced the homepage Outcomes & Results card set with three individual client check cards.
+- Added explicit Verizon, Con Edison, and Verizon Refund labels and accessible descriptions.
+- Preserved the existing light Gotham card styling, responsive grid behavior, and click-to-expand lightbox.
+- Removed the duplicate lower-page check gallery so the proof section appears once in its intended location.

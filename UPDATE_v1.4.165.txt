@@ -1,0 +1,9 @@
+Gotham Solutions Group v1.4.165
+
+Cross-device visibility review and responsive safety pass:
+- Prevented text, media, cards, and fixed-width elements from extending beyond the viewport.
+- Made the three-check proof section stack cleanly and ensured full figures remain visible.
+- Improved full-check lightbox sizing for desktop, tablets, and phones.
+- Constrained the AI assistant to the available screen height and improved mobile positioning.
+- Improved mobile header/navigation, hero sizing, buttons, spacing, and long-link wrapping.
+- Added cache-busting asset versions to all HTML pages.

@@ -1,0 +1,6 @@
+Gotham Solutions Group website update v1.4.167
+
+- Cleaned the source crops for all three client check images.
+- Removed the thin neighboring-check fragments visible along the edges of checks 2 and 3.
+- Switched the HTML to new cache-busted image filenames so deployed sites do not reuse the older crops.
+- Preserved the full-check click/lightbox behavior and responsive layout.

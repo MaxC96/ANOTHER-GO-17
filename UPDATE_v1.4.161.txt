@@ -1,0 +1,5 @@
+v1.4.161
+- Prevented large dollar figures from being clipped.
+- Made each of the three checks clickable.
+- Added an accessible full-screen lightbox so each check can be viewed in full.
+- Close with the X, backdrop click, or Escape key.

@@ -1,0 +1,19 @@
+Favicon deployment instructions
+
+1. Upload/commit all files in this ZIP to the root of your GitHub repository that Netlify deploys from.
+2. Make sure these files sit next to index.html, not inside assets/:
+   - favicon.ico
+   - favicon-16x16.png
+   - favicon-32x32.png
+   - favicon-48x48.png
+   - apple-touch-icon.png
+   - android-chrome-192x192.png
+   - android-chrome-512x512.png
+   - site.webmanifest
+3. Netlify publish directory should be the repository root, usually blank or "." for this static HTML site.
+4. In Netlify, run Deploys -> Trigger deploy -> Clear cache and deploy site.
+5. After deployment, confirm these URLs work:
+   https://gothamsolutionsgroup.com/favicon.ico
+   https://gothamsolutionsgroup.com/favicon-32x32.png
+
+If those URLs load, the favicon is deployed. Browsers may still need a hard refresh or cache clear before the tab icon updates.

@@ -1,0 +1,2 @@
+v1.4.119
+Removed the white normalization canvases from all 54 partner-logo images while preserving balanced sizing and transparent padding.

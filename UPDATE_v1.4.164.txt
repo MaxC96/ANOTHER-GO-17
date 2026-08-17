@@ -1,0 +1,6 @@
+GSG v1.4.164 - Clickable AI contact details
+
+- Phone numbers shown in the Gotham Solutions Assistant are now clickable tel: links.
+- Email addresses shown in the assistant are now clickable mailto: links.
+- Applies to both the Talk to Gotham quick reply and general fallback response.
+- Updated CSS and JavaScript cache-busting parameters for deployment.

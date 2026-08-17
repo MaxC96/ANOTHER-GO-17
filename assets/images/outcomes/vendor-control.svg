@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" role="img" aria-labelledby="t d">
+<title id="t">Vendor coordination and accountability</title><desc id="d">Multiple providers coordinated through one accountable central partner.</desc>
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eef6ff"/><stop offset="1" stop-color="#d5e8fe"/></linearGradient><linearGradient id="a" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0b458d"/><stop offset="1" stop-color="#2c7bd6"/></linearGradient></defs>
+<rect width="800" height="560" rx="48" fill="url(#bg)"/>
+<path d="M400 275L205 140M400 275l195-135M400 275L205 420M400 275l195 145" stroke="#9ab5d5" stroke-width="14" stroke-linecap="round"/>
+<circle cx="400" cy="275" r="100" fill="url(#a)"/><path d="M345 279l35 35 78-82" fill="none" stroke="#fff" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#fff" stroke="#b2c8e2" stroke-width="8"><rect x="115" y="70" width="180" height="135" rx="26"/><rect x="505" y="70" width="180" height="135" rx="26"/><rect x="115" y="355" width="180" height="135" rx="26"/><rect x="505" y="355" width="180" height="135" rx="26"/></g>
+<g fill="#2876cd"><circle cx="165" cy="123" r="22"/><circle cx="555" cy="123" r="22"/><circle cx="165" cy="408" r="22"/><circle cx="555" cy="408" r="22"/></g>
+<g stroke="#2876cd" stroke-width="14" stroke-linecap="round"><path d="M205 115h52M205 150h35M595 115h52M595 150h35M205 400h52M205 435h35M595 400h52M595 435h35"/></g>
+</svg>

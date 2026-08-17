@@ -1,0 +1,6 @@
+Gotham Solutions Group website update v1.4.163
+
+- Reworked the light three-check proof section to use the site's established palette only.
+- Removed the introduced green treatment.
+- Uses Gotham navy/slate typography, white cards, existing blue accent (#2563eb), and the site's standard light borders/shadows.
+- Preserved full-check click/lightbox behavior, responsive layout, and subtle hover lift.

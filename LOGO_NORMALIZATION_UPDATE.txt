@@ -1,0 +1,2 @@
+v1.4.118
+All 54 partner logos normalized for consistent visual size in cube stickers and fallback grid.

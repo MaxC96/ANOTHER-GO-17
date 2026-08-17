@@ -1,0 +1,2 @@
+v1.4.115
+Updated Gotham Partners Rubik cube to 54 unique, non-repeating partner logos across all six faces. Added all 30 supplied partner logo assets and expanded the responsive fallback grid to the same 54 unique logos.

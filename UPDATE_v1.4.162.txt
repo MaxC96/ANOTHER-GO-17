@@ -1,0 +1,6 @@
+Gotham Solutions Group v1.4.162
+
+- Changed the three-check proof section to a light, site-matching treatment.
+- Added white cards, subtle shadows, navy typography, and Gotham green accents.
+- Preserved click-to-expand full-check viewing and keyboard/lightbox controls.
+- Added a clear "View full check" cue beneath each amount.

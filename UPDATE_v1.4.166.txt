@@ -1,0 +1,8 @@
+Gotham Solutions Group website update v1.4.166
+
+- Corrected the Outcomes & Results panel on mobile.
+- Forces a true single-column card layout on screens 760px and below.
+- Increased mobile card height so front images and flipped-back copy remain fully visible.
+- Added responsive back-panel typography and padding.
+- Added overflow protection for unusually small screens.
+- Updated CSS/JS cache-busting version to 1.4.166.

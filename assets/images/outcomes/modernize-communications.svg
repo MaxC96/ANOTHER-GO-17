@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" role="img" aria-labelledby="t d">
+<title id="t">Modern communications</title><desc id="d">Connected voice, video and messaging devices in a unified communications network.</desc>
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eef6ff"/><stop offset="1" stop-color="#d7e9ff"/></linearGradient><linearGradient id="a" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#073e86"/><stop offset="1" stop-color="#2f82df"/></linearGradient></defs>
+<rect width="800" height="560" rx="48" fill="url(#bg)"/>
+<path d="M400 280L185 150M400 280l215-130M400 280L205 430M400 280l195 150" stroke="#91afd2" stroke-width="14" stroke-linecap="round"/>
+<circle cx="400" cy="280" r="105" fill="url(#a)"/><path d="M350 255h100v68H380l-30 28z" fill="#fff"/><circle cx="380" cy="286" r="8" fill="#2c74c7"/><circle cx="402" cy="286" r="8" fill="#2c74c7"/><circle cx="424" cy="286" r="8" fill="#2c74c7"/>
+<rect x="105" y="75" width="160" height="145" rx="28" fill="#fff" stroke="#b6cce5" stroke-width="8"/><path d="M155 140c20 35 38 53 74 71" fill="none" stroke="#2372c9" stroke-width="18" stroke-linecap="round"/><path d="M151 121l24-12 20 31-19 15m48 21l16-18 30 22-12 25" fill="none" stroke="#2372c9" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="535" y="75" width="160" height="145" rx="28" fill="#fff" stroke="#b6cce5" stroke-width="8"/><rect x="575" y="112" width="80" height="66" rx="12" fill="#2372c9"/><path d="M655 131l28-17v62l-28-17z" fill="#2372c9"/>
+<rect x="125" y="365" width="160" height="125" rx="28" fill="#fff" stroke="#b6cce5" stroke-width="8"/><path d="M160 405h90M160 435h65" stroke="#2372c9" stroke-width="14" stroke-linecap="round"/>
+<rect x="515" y="365" width="160" height="125" rx="28" fill="#fff" stroke="#b6cce5" stroke-width="8"/><path d="M555 445v-50h80v50M575 415h40" fill="none" stroke="#2372c9" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
