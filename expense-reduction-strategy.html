@@ -26,6 +26,28 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=1.4.173">
 
+<style id="service-hero-stamp-styles">
+@media (min-width:901px){
+  .service-home-hero.hero-with-stamp{position:relative!important;display:grid!important;grid-template-columns:minmax(0,1.35fr) minmax(320px,.75fr)!important;align-items:center!important;column-gap:clamp(36px,5vw,88px)!important;padding-right:clamp(48px,6vw,96px)!important;}
+  .service-home-hero.hero-with-stamp .hero-copy{width:auto!important;max-width:760px!important;min-width:0!important;grid-column:1!important;}
+  .hero-stamp-showcase{position:relative!important;inset:auto!important;right:auto!important;top:auto!important;transform:none!important;grid-column:2!important;align-self:center!important;justify-self:stretch!important;width:100%!important;height:clamp(240px,25vw,370px)!important;min-height:0!important;margin:0!important;display:grid!important;place-items:center!important;pointer-events:none;}
+}
+.hero-stamp-paper{position:relative;width:100%;height:100%;min-height:220px;background:none;border:0;box-shadow:none;overflow:visible;}
+.hero-stamp-mark{position:absolute;left:50%;top:50%;width:min(94%,540px);min-height:clamp(112px,12vw,176px);padding:clamp(16px,2vw,24px) clamp(24px,3vw,38px);display:flex;align-items:center;justify-content:center;text-align:center;transform:translate(-50%,-50%) rotate(-6deg);border:clamp(4px,.65vw,7px) solid rgba(0,67,125,.86);border-radius:10px;color:#00437d;background:transparent;font-family:Impact,"Arial Black",sans-serif;font-weight:900;line-height:.98;letter-spacing:.028em;text-transform:uppercase;font-size:clamp(1.2rem,2.35vw,2.15rem);opacity:0;filter:none;mix-blend-mode:multiply;text-shadow:none;box-shadow:none;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;backface-visibility:hidden;}
+.hero-stamp-mark::before,.hero-stamp-mark::after{content:"";position:absolute;pointer-events:none;border-radius:6px;}
+.hero-stamp-mark::before{inset:7px;border:2px solid rgba(0,67,125,.54);}
+.hero-stamp-mark::after{inset:-8px;border:2px solid rgba(0,67,125,.16);transform:translate(2px,-1px);clip-path:polygon(0 0,93% 0,100% 18%,91% 34%,100% 57%,92% 100%,0 100%);}
+.hero-stamp-showcase.is-running .hero-stamp-mark{animation:heroStampImpact 7.2s cubic-bezier(.2,.78,.2,1) infinite;}
+@keyframes heroStampImpact{0%,8%{opacity:0;transform:translate3d(-50%,-120%,0) rotate(-10deg) scale(1.12)}12%{opacity:.24;transform:translate3d(-50%,-64%,0) rotate(-7deg) scale(1.04)}14%{opacity:.98;transform:translate3d(-50%,-49%,0) rotate(-6deg) scale(.965)}17%,82%{opacity:.96;transform:translate3d(-50%,-50%,0) rotate(-6deg) scale(1)}88%,100%{opacity:0;transform:translate3d(-50%,-44%,0) rotate(-6deg) scale(1.015)}}
+@media(max-width:900px){
+  .service-home-hero.hero-with-stamp{display:block!important;}
+  .hero-stamp-showcase{position:relative!important;inset:auto!important;transform:none!important;width:100%!important;min-height:230px!important;margin-top:24px!important;display:grid!important;place-items:center!important;}
+  .hero-stamp-paper{width:100%;min-height:230px;}
+  .hero-stamp-mark{width:min(88%,480px);}
+}
+@media(prefers-reduced-motion:reduce){.hero-stamp-showcase .hero-stamp-mark{opacity:.92;animation:none!important}}
+</style>
+
 </head><body>
 <a class="skip-link" href="#main-content">Skip to main content</a><header class="site-header" id="top">
   <a class="brand logo-brand" href="index.html" aria-label="Gotham Solutions Group home">
@@ -39,13 +61,18 @@
     <a href="managed-services.html">Managed Services</a>
   </nav>
 </header><main id="main-content">
-<section class="hero premium-hero v2-hero service-home-hero cost-hero">
+<section class="hero premium-hero v2-hero service-home-hero cost-hero hero-with-stamp">
   <div class="hero-copy">
     <p class="eyebrow">Cost Recovery &amp; Optimization</p>
     <h1>You can't manage what you can't see.</h1>
     <p class="hero-text">Your technology spend. Fully transparent. Fully accountable. One less thing to worry about.</p>
     <p class="hero-text">For more than 25 years, Gotham Solutions Group has helped CFOs uncover hidden technology costs, recover missed credits, validate vendor compliance, and create immediate, measurable savings.</p>
     <div class="hero-actions service-cta"><a class="button primary" href="contact.html">Book a Consultation</a></div>
+  </div>
+  <div class="hero-stamp-showcase" aria-label="Cost Recovery and Optimization hero with rotating Gotham stamp messages">
+    <div class="hero-stamp-paper">
+      <div class="hero-stamp-mark" aria-live="polite"></div>
+    </div>
   </div>
 </section>
 <section class="section cost-intro-panel">
@@ -190,4 +217,28 @@
 <div class="footer-bottom-row"><p class="copyright">© 2026 Gotham Solutions Group</p><div class="footer-legal"><a href="terms-and-conditions.html">Terms &amp; Conditions</a></div></div>
 </footer>
 <script src="assets/script.js?v=1.4.173" defer></script>
+<script id="service-hero-stamp-animation">
+document.addEventListener('DOMContentLoaded', function(){
+  var show = document.querySelector('.hero-stamp-showcase');
+  if(!show) return;
+  var mark = show.querySelector('.hero-stamp-mark');
+  var quotes = [
+    'No Savings. No Fee.',
+    'We Find What Others Miss.',
+    'Fully Transparent. Fully Accountable.'
+  ];
+  var index = 0;
+  function render(){
+    mark.textContent = quotes[index];
+    mark.setAttribute('aria-label', quotes[index]);
+  }
+  render();
+  show.classList.add('is-running');
+  mark.addEventListener('animationiteration', function(e){
+    if(e.animationName !== 'heroStampImpact') return;
+    index = (index + 1) % quotes.length;
+    render();
+  });
+});
+</script>
 </body></html>
