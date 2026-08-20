@@ -1992,8 +1992,17 @@ body.check-lightbox-open{overflow:hidden}
   padding:20px 10px 24px!important;
 }
 .check-spotlight:after{
-  left:18%!important;right:18%!important;bottom:10px!important;height:15px!important;
-  background:rgba(16,35,63,.22)!important;opacity:.32!important;filter:blur(12px)!important;
+  left:50%!important;right:auto!important;bottom:4px!important;width:174px!important;height:48px!important;
+  background:
+    radial-gradient(ellipse at center,#fff3a6 0 28%,#e8b63d 30% 46%,#9b6817 48% 55%,transparent 57%) 4px 27px/54px 19px no-repeat,
+    radial-gradient(ellipse at center,#ffe88a 0 29%,#dca52b 31% 47%,#8f5d12 49% 56%,transparent 58%) 42px 22px/58px 20px no-repeat,
+    radial-gradient(ellipse at center,#fff5b8 0 28%,#edbd49 30% 47%,#a16d18 49% 56%,transparent 58%) 83px 26px/55px 19px no-repeat,
+    radial-gradient(ellipse at center,#ffe277 0 29%,#d79b20 31% 47%,#86530d 49% 56%,transparent 58%) 119px 29px/50px 18px no-repeat,
+    radial-gradient(ellipse at center,#fff0a0 0 28%,#e5af34 30% 47%,#936013 49% 56%,transparent 58%) 28px 11px/52px 19px no-repeat,
+    radial-gradient(ellipse at center,#ffea8f 0 29%,#dda42a 31% 47%,#8c5910 49% 56%,transparent 58%) 69px 7px/57px 20px no-repeat,
+    radial-gradient(ellipse at center,#fff4ae 0 28%,#e9b73e 30% 47%,#996516 49% 56%,transparent 58%) 107px 13px/51px 19px no-repeat!important;
+  opacity:.96!important;filter:drop-shadow(0 7px 7px rgba(73,48,8,.25))!important;
+  transform:translateX(-50%)!important;pointer-events:none!important;
 }
 .check-spotlight img{width:100%!important;max-width:100%!important;height:190px!important;max-height:190px!important;object-fit:contain!important;object-position:center!important;filter:drop-shadow(0 12px 13px rgba(15,35,63,.20))!important}
 .check-proof-card:first-child .check-spotlight img{width:82%!important;max-width:82%!important}
