@@ -1228,22 +1228,19 @@ body > .testimonial-lightbox-final .testimonial-lightbox-close{
 <div aria-label="Three documented client recovery checks" class="check-proof-grid">
 <article class="check-proof-card check-proof-blue">
 <button aria-label="View Verizon check for $68,305.59 in full" class="check-spotlight check-open" type="button">
-<img alt="Verizon refund check for $68,305.59" decoding="async" loading="lazy" src="assets/why-gotham/check-cards/client-check-1-clean.png"/>
-<span class="check-view-hint">View full check</span>
+<img alt="Verizon refund check for $68,305.59" decoding="async" loading="lazy" src="assets/why-gotham/check-cards/client-check-1-clean.png"/>\n<span class="money-rain" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>\n<span class="check-view-hint">View full check</span>
 </button>
 <div class="check-proof-copy"><span class="check-index">01</span><div><p>Verizon</p><strong>$68,305.59</strong></div></div>
 </article>
 <article class="check-proof-card check-proof-green">
 <button aria-label="View Con Edison check for $160,130.46 in full" class="check-spotlight check-open" type="button">
-<img alt="Con Edison recovery check for $160,130.46" decoding="async" loading="lazy" src="assets/why-gotham/check-cards/client-check-2-clean.png"/>
-<span class="check-view-hint">View full check</span>
+<img alt="Con Edison recovery check for $160,130.46" decoding="async" loading="lazy" src="assets/why-gotham/check-cards/client-check-2-clean.png"/>\n<span class="money-rain" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>\n<span class="check-view-hint">View full check</span>
 </button>
 <div class="check-proof-copy"><span class="check-index">02</span><div><p>Con Edison</p><strong>$160,130.46</strong></div></div>
 </article>
 <article class="check-proof-card check-proof-gold">
 <button aria-label="View Verizon refund check for $28,126.95 in full" class="check-spotlight check-open" type="button">
-<img alt="Verizon refund check for $28,126.95" decoding="async" loading="lazy" src="assets/why-gotham/check-cards/client-check-3-clean.png"/>
-<span class="check-view-hint">View full check</span>
+<img alt="Verizon refund check for $28,126.95" decoding="async" loading="lazy" src="assets/why-gotham/check-cards/client-check-3-clean.png"/>\n<span class="money-rain" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>\n<span class="check-view-hint">View full check</span>
 </button>
 <div class="check-proof-copy"><span class="check-index">03</span><div><p>Verizon</p><strong>$28,126.95</strong></div></div>
 </article>
@@ -1991,19 +1988,33 @@ body.check-lightbox-open{overflow:hidden}
   border:1px solid #e5ebef!important;
   padding:20px 10px 24px!important;
 }
-.check-spotlight:after{
-  left:50%!important;right:auto!important;bottom:4px!important;width:174px!important;height:48px!important;
-  background:
-    radial-gradient(ellipse at center,#fff3a6 0 28%,#e8b63d 30% 46%,#9b6817 48% 55%,transparent 57%) 4px 27px/54px 19px no-repeat,
-    radial-gradient(ellipse at center,#ffe88a 0 29%,#dca52b 31% 47%,#8f5d12 49% 56%,transparent 58%) 42px 22px/58px 20px no-repeat,
-    radial-gradient(ellipse at center,#fff5b8 0 28%,#edbd49 30% 47%,#a16d18 49% 56%,transparent 58%) 83px 26px/55px 19px no-repeat,
-    radial-gradient(ellipse at center,#ffe277 0 29%,#d79b20 31% 47%,#86530d 49% 56%,transparent 58%) 119px 29px/50px 18px no-repeat,
-    radial-gradient(ellipse at center,#fff0a0 0 28%,#e5af34 30% 47%,#936013 49% 56%,transparent 58%) 28px 11px/52px 19px no-repeat,
-    radial-gradient(ellipse at center,#ffea8f 0 29%,#dda42a 31% 47%,#8c5910 49% 56%,transparent 58%) 69px 7px/57px 20px no-repeat,
-    radial-gradient(ellipse at center,#fff4ae 0 28%,#e9b73e 30% 47%,#996516 49% 56%,transparent 58%) 107px 13px/51px 19px no-repeat!important;
-  opacity:.96!important;filter:drop-shadow(0 7px 7px rgba(73,48,8,.25))!important;
-  transform:translateX(-50%)!important;pointer-events:none!important;
+.check-spotlight:after{display:none!important}
+.money-rain{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none}
+.money-rain i{
+  --x:10%;--tilt:-16deg;--drift:18px;--duration:5.2s;--delay:-1s;
+  position:absolute;left:var(--x);top:-34px;width:44px;height:22px;
+  border:1px solid #2f6f42;border-radius:3px;
+  background:linear-gradient(135deg,#dff3d7 0%,#9fd08f 48%,#d9efd2 100%);
+  box-shadow:0 5px 9px rgba(24,72,40,.22);
+  color:#285d37;font-style:normal;font-size:12px;font-weight:900;line-height:20px;text-align:center;
+  opacity:0;animation:cash-fall var(--duration) linear infinite;animation-delay:var(--delay);
 }
+.money-rain i:before{content:"$";position:relative;z-index:1}
+.money-rain i:after{content:"";position:absolute;inset:3px 8px;border:1px solid rgba(40,93,55,.45);border-radius:50%}
+.money-rain i:nth-child(1){--x:5%;--tilt:-24deg;--drift:28px;--duration:5.6s;--delay:-4.8s}
+.money-rain i:nth-child(2){--x:22%;--tilt:18deg;--drift:-16px;--duration:4.7s;--delay:-2.1s}
+.money-rain i:nth-child(3){--x:40%;--tilt:-10deg;--drift:22px;--duration:5.1s;--delay:-3.4s}
+.money-rain i:nth-child(4){--x:57%;--tilt:27deg;--drift:-26px;--duration:5.9s;--delay:-1.2s}
+.money-rain i:nth-child(5){--x:72%;--tilt:-19deg;--drift:18px;--duration:4.9s;--delay:-4.1s}
+.money-rain i:nth-child(6){--x:88%;--tilt:12deg;--drift:-22px;--duration:5.4s;--delay:-2.8s}
+.money-rain i:nth-child(7){--x:31%;--tilt:34deg;--drift:30px;--duration:6.2s;--delay:-5.5s}
+@keyframes cash-fall{
+  0%{transform:translate3d(0,-38px,0) rotate(var(--tilt));opacity:0}
+  10%{opacity:.9}
+  55%{transform:translate3d(var(--drift),118px,0) rotate(calc(var(--tilt) + 105deg));opacity:.86}
+  100%{transform:translate3d(calc(var(--drift) * -.45),270px,0) rotate(calc(var(--tilt) + 220deg));opacity:0}
+}
+@media(prefers-reduced-motion:reduce){.money-rain i{animation:none!important;opacity:.38;top:auto;bottom:8px}.money-rain i:nth-child(n+5){display:none}}
 .check-spotlight img{width:100%!important;max-width:100%!important;height:190px!important;max-height:190px!important;object-fit:contain!important;object-position:center!important;filter:drop-shadow(0 12px 13px rgba(15,35,63,.20))!important}
 .check-proof-card:first-child .check-spotlight img{width:82%!important;max-width:82%!important}
 .check-view-hint{background:rgba(16,35,63,.90)!important;border-color:rgba(255,255,255,.8)!important}
