@@ -1843,6 +1843,8 @@ document.addEventListener('DOMContentLoaded',function(){
     });
     if(modal.parentElement!==document.body)document.body.appendChild(modal);
     modal.classList.add('is-open');modal.setAttribute('aria-hidden','false');document.body.classList.add('team-qa-open');
+    modal.scrollTop=0;dialog.scrollTop=0;contentEl.scrollTop=0;
+    requestAnimationFrame(function(){modal.scrollTop=0;dialog.scrollTop=0;contentEl.scrollTop=0;});
     closeButton.focus();
   }
   function closeModal(){
