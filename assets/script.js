@@ -100,6 +100,12 @@ document.addEventListener("DOMContentLoaded", function(){
     grid.classList.add("client-logo-stable-wall");
     grid.setAttribute("data-active-layer", "0");
 
+    // Warm the browser cache before the first rotation so the crossfade stays fluid.
+    logos.forEach(function(logo){
+      const preload = new Image();
+      preload.src = logo.src;
+    });
+
     const slots = [];
     for(let i = 0; i < pageSize; i++){
       const figure = document.createElement("figure");
@@ -107,13 +113,9 @@ document.addEventListener("DOMContentLoaded", function(){
 
       const imgA = document.createElement("img");
       imgA.className = "client-logo-img client-logo-layer-a";
-      imgA.loading = "lazy";
-      imgA.decoding = "async";
 
       const imgB = document.createElement("img");
       imgB.className = "client-logo-img client-logo-layer-b";
-      imgB.loading = "lazy";
-      imgB.decoding = "async";
       imgB.setAttribute("aria-hidden", "true");
 
       figure.appendChild(imgA);
@@ -134,49 +136,11 @@ document.addEventListener("DOMContentLoaded", function(){
       img.alt = logo.alt;
     }
 
-    function waitForImage(img, timeoutMs){
-      return new Promise(function(resolve){
-        let settled = false;
-        let timer = 0;
-
-        function finish(ok){
-          if(settled) return;
-          settled = true;
-          window.clearTimeout(timer);
-          img.removeEventListener("load", onLoad);
-          img.removeEventListener("error", onError);
-          resolve(ok);
-        }
-
-        function onLoad(){
-          if(img.decode){
-            img.decode().then(function(){ finish(true); }).catch(function(){
-              finish(img.naturalWidth > 0);
-            });
-          } else {
-            finish(true);
-          }
-        }
-
-        function onError(){ finish(false); }
-
-        if(img.complete){
-          finish(img.naturalWidth > 0);
-          return;
-        }
-
-        img.addEventListener("load", onLoad, {once:true});
-        img.addEventListener("error", onError, {once:true});
-        timer = window.setTimeout(function(){ finish(false); }, timeoutMs);
-      });
-    }
-
     slots.forEach(function(slot, i){
       setImage(slot.layers[0], logoAt(offset + i));
     });
 
     grid.classList.add("client-logo-reveal-ready");
-    let wallInView = false;
     function revealLogos(){
       grid.classList.add("logos-in-view");
     }
@@ -196,44 +160,19 @@ document.addEventListener("DOMContentLoaded", function(){
       revealLogos();
     }
 
-    if("IntersectionObserver" in window){
-      const activityObserver = new IntersectionObserver(function(entries){
-        wallInView = entries.some(function(entry){ return entry.isIntersecting; });
-      }, { rootMargin: "240px 0px", threshold: 0 });
-      activityObserver.observe(grid);
-    } else {
-      wallInView = true;
-    }
-
-    async function rotate(){
-      if(isRotating || !wallInView || document.hidden) return;
+    function rotate(){
+      if(isRotating) return;
       isRotating = true;
 
       const nextOffset = (offset + pageSize) % logos.length;
       const nextLayer = activeLayer === 0 ? 1 : 0;
+      grid.classList.add("is-switching");
 
       slots.forEach(function(slot, i){
-        slot.layers[nextLayer].loading = "eager";
         setImage(slot.layers[nextLayer], logoAt(nextOffset + i));
-        slot.figure.style.setProperty("--client-slot-delay", (i * 18) + "ms");
-      });
-
-      const readiness = await Promise.all(slots.map(function(slot){
-        return waitForImage(slot.layers[nextLayer], 5000);
-      }));
-
-      if(!readiness.every(Boolean) || !wallInView || document.hidden){
-        slots.forEach(function(slot){
-          slot.figure.style.removeProperty("--client-slot-delay");
-        });
-        isRotating = false;
-        return;
-      }
-
-      grid.classList.add("is-switching");
-      slots.forEach(function(slot){
         slot.layers[nextLayer].removeAttribute("aria-hidden");
         slot.layers[activeLayer].setAttribute("aria-hidden", "true");
+        slot.figure.style.setProperty("--client-slot-delay", (i * 85) + "ms");
       });
 
       requestAnimationFrame(function(){
@@ -244,17 +183,17 @@ document.addEventListener("DOMContentLoaded", function(){
 
       window.setTimeout(function(){
         offset = nextOffset;
+        activeLayer = nextLayer;
         slots.forEach(function(slot){
           slot.figure.style.removeProperty("--client-slot-delay");
         });
-        activeLayer = nextLayer;
         grid.classList.remove("is-switching");
         isRotating = false;
-      }, 1100);
+      }, 3800);
     }
 
     if(logos.length > pageSize){
-      setInterval(rotate, 12000);
+      setInterval(rotate, 9800);
     }
   });
 });
@@ -289,8 +228,7 @@ document.addEventListener("DOMContentLoaded", function(){
 // Gotham Partners cube interaction: drag/swipe the whole cube as one object.
 (() => {
   const cube = document.querySelector('.six-rubik-cube');
-  const dragSurface = document.querySelector('.six-rubik-drag-surface');
-  if (!cube || !dragSurface) return;
+  if (!cube) return;
 
   cube.style.animation = 'none';
   cube.style.transformStyle = 'preserve-3d';
@@ -304,10 +242,6 @@ document.addEventListener("DOMContentLoaded", function(){
   let lastY = 0;
   let lastFrame = performance.now();
   let activePointerId = null;
-  let cubeInView = false;
-  let animationFrameId = 0;
-
-  const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
   const render = () => {
     cube.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
@@ -330,72 +264,36 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     render();
-    if (cubeInView && !document.hidden) {
-      animationFrameId = requestAnimationFrame(animate);
-    } else {
-      animationFrameId = 0;
-    }
+    requestAnimationFrame(animate);
   };
 
-  const startAnimation = () => {
-    if (animationFrameId || !cubeInView || document.hidden) return;
-    lastFrame = performance.now();
-    animationFrameId = requestAnimationFrame(animate);
-  };
-
-  const stopAnimation = () => {
-    if (!animationFrameId) return;
-    cancelAnimationFrame(animationFrameId);
-    animationFrameId = 0;
-  };
-
-  if ('IntersectionObserver' in window) {
-    const cubeObserver = new IntersectionObserver((entries) => {
-      cubeInView = entries.some((entry) => entry.isIntersecting);
-      if (cubeInView) startAnimation();
-      else stopAnimation();
-    }, { rootMargin: '180px 0px', threshold: 0 });
-    cubeObserver.observe(cube);
-  } else {
-    cubeInView = true;
-  }
-
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) stopAnimation();
-    else startAnimation();
-  });
-
-  dragSurface.addEventListener('pointerdown', (event) => {
-    if (dragging || (event.pointerType === 'mouse' && event.button !== 0)) return;
+  cube.addEventListener('pointerdown', (event) => {
     dragging = true;
     activePointerId = event.pointerId;
     lastX = event.clientX;
     lastY = event.clientY;
     velocityX = 0;
     velocityY = 0;
-    dragSurface.classList.add('is-dragging');
-    dragSurface.setPointerCapture?.(event.pointerId);
+    cube.classList.add('is-dragging');
+    cube.setPointerCapture?.(event.pointerId);
     event.preventDefault();
-    startAnimation();
   });
 
-  dragSurface.addEventListener('pointermove', (event) => {
+  cube.addEventListener('pointermove', (event) => {
     if (!dragging || event.pointerId !== activePointerId) return;
 
     const dx = event.clientX - lastX;
     const dy = event.clientY - lastY;
 
-    const safeDx = clamp(dx, -48, 48);
-    const safeDy = clamp(dy, -48, 48);
+    rotY += dx * 0.42;
+    rotX -= dy * 0.42;
 
-    rotY += safeDx * 0.42;
-    rotX -= safeDy * 0.42;
-
-    velocityY = (velocityY * 0.55) + (safeDx * 0.028 * 0.45);
-    velocityX = (velocityX * 0.55) + (-safeDy * 0.028 * 0.45);
+    velocityY = dx * 0.028;
+    velocityX = -dy * 0.028;
 
     lastX = event.clientX;
     lastY = event.clientY;
+    render();
     event.preventDefault();
   });
 
@@ -405,54 +303,19 @@ document.addEventListener("DOMContentLoaded", function(){
 
     dragging = false;
     activePointerId = null;
-    dragSurface.classList.remove('is-dragging');
-
-    velocityX = clamp(velocityX, -0.55, 0.55);
-    velocityY = clamp(velocityY, -0.55, 0.55);
-
-    if (Math.abs(rotX) > 3600) rotX %= 360;
-    if (Math.abs(rotY) > 3600) rotY %= 360;
+    cube.classList.remove('is-dragging');
 
     if (Math.abs(velocityX) < 0.04 && Math.abs(velocityY) < 0.04) {
       velocityY = 0.06;
     }
   };
 
-  dragSurface.addEventListener('pointerup', release);
-  dragSurface.addEventListener('pointercancel', release);
-  dragSurface.addEventListener('lostpointercapture', release);
+  cube.addEventListener('pointerup', release);
+  cube.addEventListener('pointercancel', release);
+  cube.addEventListener('lostpointercapture', release);
 
   render();
-  startAnimation();
-})();
-
-// Pause decorative marquee motion whenever it cannot be seen.
-(() => {
-  const tracks = Array.from(document.querySelectorAll('.quote-track'));
-  if (!tracks.length) return;
-
-  const updateVisibility = (track, visible) => {
-    track.classList.toggle('is-in-view', visible && !document.hidden);
-  };
-
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => updateVisibility(entry.target, entry.isIntersecting));
-    }, { rootMargin: '120px 0px', threshold: 0 });
-    tracks.forEach((track) => observer.observe(track));
-    document.addEventListener('visibilitychange', () => {
-      tracks.forEach((track) => {
-        if (document.hidden) {
-          updateVisibility(track, false);
-          return;
-        }
-        const rect = track.getBoundingClientRect();
-        updateVisibility(track, rect.bottom >= -120 && rect.top <= window.innerHeight + 120);
-      });
-    });
-  } else {
-    tracks.forEach((track) => updateVisibility(track, true));
-  }
+  requestAnimationFrame(animate);
 })();
 
 

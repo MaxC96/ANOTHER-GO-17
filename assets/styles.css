@@ -283,14 +283,6 @@ cite{display:block;margin-top:18px;font-style:normal;font-weight:900;color:#1d4e
 }
 .site-footer a{color:var(--accent);text-decoration:none}
 .copyright{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;font-size:14px}
-.footer-certifications{grid-column:1/-1;margin-top:4px;padding-top:24px;border-top:1px solid var(--line);text-align:center}
-.footer-certifications>span{display:block;margin-bottom:8px;color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.08em;line-height:1.2;text-transform:uppercase}
-.footer-certification-marks{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:20px;min-height:74px}
-.footer-certification-marks img{display:block;width:auto;object-fit:contain}
-.footer-certification-marks .footer-wbe-logo{height:74px;max-width:170px}
-.footer-certification-marks .footer-wbe-seal{height:74px;max-width:74px;border-radius:50%}
-.footer-certification-marks .footer-wbe-certified-badge{height:64px;max-width:148px}
-@media(max-width:700px){.footer-certification-marks .footer-wbe-logo{height:65px;max-width:150px}.footer-certification-marks .footer-wbe-seal{height:65px;max-width:65px}.footer-certification-marks .footer-wbe-certified-badge{height:56px;max-width:129px}}
 
 /* Expense Reduction Strategy hero image - matched to service detail hero layout */
 .expense-hero{
@@ -2352,7 +2344,6 @@ body{
 
 
 .footer-brand-concept{
-grid-column:1/-1;
 display:flex;
 align-items:center;
 justify-content:center;
@@ -5766,59 +5757,22 @@ html.gsg-dark .nav.open{background:#07111f}
 .terms-table tr:last-child td{border-bottom:0}
 @media (max-width:700px){.terms-content{border-radius:16px;padding:1.2rem}.footer-legal{justify-content:flex-start}}
 
-/* Footer legal link directly above the bottom copyright rule */
-.site-footer{position:relative;padding-bottom:28px !important}
+/* v1.4.135: footer legal link at the extreme bottom-right */
+.site-footer{position:relative;padding-bottom:72px !important}
 .footer-legal{
-  position:static;
-  grid-column:1/-1;
+  position:absolute;
+  right:6vw;
+  bottom:28px;
   display:flex;
   justify-content:flex-end;
   padding:0;
   text-align:right;
 }
-.site-footer .copyright{padding-right:0}
+.site-footer .copyright{padding-right:190px}
 @media(max-width:700px){
+  .site-footer{padding-bottom:28px !important}
   .footer-legal{position:static;grid-column:1/-1;justify-content:flex-end;text-align:right;padding-top:.25rem}
-}
-
-/* Compact footer layout */
-.site-footer{row-gap:16px;column-gap:28px;padding-top:34px !important;padding-bottom:20px !important}
-.footer-identity-row{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:28px;margin-top:8px}
-.footer-certifications{order:2;display:flex;align-items:center;justify-content:flex-end;gap:14px;margin-top:0;padding-top:0;border-top:0;text-align:right}
-.footer-certifications>span{flex:0 0 auto;margin:0}
-.footer-certification-marks{justify-content:flex-end;flex-wrap:nowrap;gap:12px}
-.footer-certification-marks .footer-wbe-logo{height:64px;max-width:147px}
-.footer-certification-marks .footer-wbe-seal{height:64px;max-width:64px}
-.footer-certification-marks .footer-wbe-certified-badge{height:56px;max-width:129px}
-.footer-brand-concept{order:1;justify-content:flex-start;gap:16px;margin-top:0;margin-bottom:0;padding-top:0;border-top:0;text-align:left}
-.footer-brand-concept span{white-space:nowrap}
-.footer-brand-concept::after{height:44px}
-.footer-brand-concept .footer-concept-logo{height:56px}
-.footer-legal{line-height:1.2}
-.site-footer .copyright{margin:0;padding-top:0}
-.footer-bottom-row{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding-top:12px}
-.footer-bottom-row .copyright{grid-column:auto;border-top:0;padding-top:0}
-.footer-bottom-row .footer-legal{grid-column:auto;justify-content:flex-end;padding:0;text-align:right}
-.footer-bottom-row .footer-legal a{white-space:nowrap}
-@media(max-width:1050px){
-  .footer-identity-row{align-items:stretch;flex-direction:column;gap:10px}
-  .footer-brand-concept{justify-content:flex-start}
-  .footer-certifications{justify-content:flex-end}
-}
-@media(max-width:700px){
-  .site-footer{row-gap:14px;padding-top:28px !important;padding-bottom:18px !important}
-  .footer-identity-row{margin-top:4px}
-  .footer-certifications{display:block;padding-top:0;text-align:right}
-  .footer-certifications>span{margin-bottom:6px}
-  .footer-certification-marks{flex-wrap:nowrap;gap:10px}
-  .footer-certification-marks .footer-wbe-logo{height:56px;max-width:130px}
-  .footer-certification-marks .footer-wbe-seal{height:58px;max-width:58px}
-  .footer-certification-marks .footer-wbe-certified-badge{height:49px;max-width:112px}
-  .footer-brand-concept{gap:12px}
-  .footer-brand-concept span{font-size:clamp(11px,3.4vw,14px);white-space:nowrap}
-  .footer-brand-concept::after{height:36px}
-  .footer-brand-concept .footer-concept-logo{height:46px}
-  .footer-bottom-row{gap:10px;font-size:12px}
+  .site-footer .copyright{padding-right:0}
 }
 
 
@@ -6718,140 +6672,6 @@ iframe, table { width: 100%; }
     font-size: clamp(.96rem, 4.2vw, 1.05rem) !important;
     line-height: 1.55 !important;
   }
-}
-
-/* v1.4.170: keep remaining rounded controls and scroll regions visually contained. */
-.gotham-ai-close{
-  position:relative;
-  flex:0 0 30px;
-  padding:0;
-  font-size:0;
-  line-height:1;
-}
-.gotham-ai-close::before,
-.gotham-ai-close::after{
-  content:"";
-  position:absolute;
-  top:50%;
-  left:50%;
-  width:13px;
-  height:2px;
-  border-radius:999px;
-  background:currentColor;
-  transform-origin:center;
-}
-.gotham-ai-close::before{transform:translate(-50%,-50%) rotate(45deg)}
-.gotham-ai-close::after{transform:translate(-50%,-50%) rotate(-45deg)}
-
-.terms-table-wrap{
-  clip-path:inset(0 round 14px);
-  scrollbar-gutter:stable;
-  overscroll-behavior-inline:contain;
-}
-
-@media(max-width:560px){
-  .outcome-flip-grid .outcome-flip-back{
-    clip-path:inset(0 round var(--radius-lg,28px));
-    scrollbar-gutter:stable;
-    overscroll-behavior:contain;
-  }
-}
-
-/* Leave the fixed chat control a clear lane beside the footer legal link. */
-.footer-bottom-row .footer-legal{
-  margin-right:88px;
-}
-@media(max-width:700px){
-  .footer-bottom-row{
-    flex-wrap:wrap;
-  }
-  .footer-bottom-row .footer-legal{
-    flex:0 0 100%;
-    margin-right:70px;
-    justify-content:flex-end;
-  }
-}
-
-/* v1.4.171: stable hit target for the rotating Gotham Partners cube. */
-.six-rubik-stage{
-  isolation:isolate;
-}
-.six-rubik-drag-surface{
-  position:absolute;
-  z-index:4;
-  left:50%;
-  top:50%;
-  width:min(520px,92%);
-  aspect-ratio:1;
-  transform:translate(-50%,-50%);
-  border-radius:50%;
-  background:transparent;
-  cursor:grab;
-  user-select:none;
-  -webkit-user-select:none;
-  touch-action:none;
-}
-.six-rubik-drag-surface.is-dragging{
-  cursor:grabbing;
-}
-.six-rubik-cube{
-  pointer-events:none;
-}
-
-/* v1.4.172: performance pass for long pages and continuously animated regions. */
-.scroll-reveal{
-  transition-duration:.45s !important;
-}
-.scroll-reveal.is-revealed{
-  will-change:auto !important;
-}
-.client-logo-stable-wall .client-logo-slot{
-  will-change:auto !important;
-  transition-duration:.3s !important;
-}
-.client-logo-stable-wall .client-logo-img{
-  will-change:auto !important;
-  transition:opacity .48s ease var(--client-slot-delay,0ms), transform .25s ease !important;
-}
-.client-logo-stable-wall.is-switching .client-logo-img{
-  will-change:opacity !important;
-}
-.testimonial-flip-inner-final{
-  will-change:auto !important;
-  transition-duration:.68s !important;
-}
-.testimonial-flip-card-final.is-turning .testimonial-flip-inner-final{
-  will-change:transform !important;
-}
-.quote-track{
-  animation-play-state:paused !important;
-  will-change:auto !important;
-}
-.quote-track.is-in-view{
-  animation-play-state:running !important;
-  will-change:transform !important;
-}
-.testimonial-showcase,
-.valued-clients-section,
-.site-footer{
-  -webkit-backdrop-filter:none !important;
-  backdrop-filter:none !important;
-}
-.site-header{
-  -webkit-backdrop-filter:blur(8px) !important;
-  backdrop-filter:blur(8px) !important;
-}
-@media(max-width:900px){
-  .feature-card,
-  .team-card,
-  .capability-card{
-    -webkit-backdrop-filter:none !important;
-    backdrop-filter:none !important;
-  }
-}
-@media(prefers-reduced-motion:reduce){
-  .testimonial-flip-inner-final{transition:none !important;}
-  .quote-track{animation:none !important;}
 }
 
 @media (max-width: 390px) {
