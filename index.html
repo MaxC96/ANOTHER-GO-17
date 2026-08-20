@@ -2062,44 +2062,64 @@ body.check-lightbox-open{overflow:hidden}
 }
 @media(max-width:900px){.check-proof-card{grid-template-columns:minmax(0,1.35fr) minmax(210px,.75fr)!important}}
 
-/* Animated falling-money backdrop for the client recovery checks. Visibility tuned after live review. */
+/* Photorealistic falling money placed inside each check spotlight, directly behind the check. */
 .why-gotham-check-gallery{
   isolation:isolate;
-  background:#eef3f7!important;
+  background:linear-gradient(180deg,#f8fafc 0%,#f3f6f8 100%)!important;
 }
 .why-gotham-check-gallery::before{
-  z-index:-2;
-  inset:-7%!important;
-  background:url("assets/images/falling-money-background.webp") center/cover no-repeat!important;
-  opacity:.78;
-  filter:saturate(.78) contrast(.92) brightness(1.08);
-  transform:translate3d(-1.25%,-3.5%,0) scale(1.08) rotate(-.35deg);
-  transform-origin:center;
-  animation:gotham-money-fall 18s ease-in-out infinite alternate;
-  will-change:transform;
+  z-index:0;
+  inset:0!important;
+  background:radial-gradient(circle at 50% 0%,rgba(37,99,235,.07),transparent 38%)!important;
+  opacity:1;
+  filter:none;
+  transform:none;
+  animation:none;
 }
-.why-gotham-check-gallery::after{
+.why-gotham-check-gallery::after{display:none}
+.why-gotham-check-gallery > *{position:relative;z-index:1}
+.check-proof-card{background:#fff!important;backdrop-filter:none}
+.check-spotlight{isolation:isolate}
+.check-spotlight::before{
   content:"";
   position:absolute;
-  z-index:-1;
+  z-index:0;
+  inset:-9%;
+  pointer-events:none;
+  background:url("assets/images/falling-money-background.webp") center/cover no-repeat;
+  opacity:.74;
+  filter:saturate(.82) contrast(.94) brightness(1.06);
+  transform:translate3d(-1.5%,-3%,0) scale(1.08) rotate(-.3deg);
+  transform-origin:center;
+  animation:gotham-check-money-drift 12s ease-in-out infinite alternate;
+  will-change:transform;
+}
+.check-spotlight::after{
+  content:"";
+  display:block!important;
+  position:absolute;
+  z-index:1;
   inset:0;
   pointer-events:none;
-  background:
-    linear-gradient(180deg,rgba(248,250,252,.58),rgba(240,245,248,.52)),
-    radial-gradient(circle at 50% 42%,rgba(255,255,255,.18),rgba(237,243,247,.38) 74%);
+  background:rgba(247,249,251,.26)!important;
+  opacity:1!important;
+  filter:none!important;
 }
-.why-gotham-check-gallery > *{position:relative;z-index:1}
-.check-proof-card{background:rgba(255,255,255,.95)!important;backdrop-filter:blur(3px)}
-@keyframes gotham-money-fall{
-  from{transform:translate3d(-1.25%,-3.5%,0) scale(1.08) rotate(-.35deg)}
-  to{transform:translate3d(1.25%,3.5%,0) scale(1.13) rotate(.35deg)}
+.check-proof-card:nth-child(2) .check-spotlight::before{animation-delay:-4s;transform-origin:60% 45%}
+.check-proof-card:nth-child(3) .check-spotlight::before{animation-delay:-8s;transform-origin:38% 52%}
+.check-spotlight img{position:relative;z-index:2}
+.check-view-hint{z-index:4}
+.money-rain{display:none!important}
+@keyframes gotham-check-money-drift{
+  from{transform:translate3d(-1.5%,-3%,0) scale(1.08) rotate(-.3deg)}
+  to{transform:translate3d(1.5%,3%,0) scale(1.14) rotate(.3deg)}
 }
 @media(max-width:620px){
-  .why-gotham-check-gallery::before{inset:-4%!important;opacity:.64;animation-duration:22s}
-  .why-gotham-check-gallery::after{background:rgba(244,248,251,.64)}
+  .check-spotlight::before{inset:-5%;opacity:.68;animation-duration:15s}
+  .check-spotlight::after{background:rgba(247,249,251,.32)!important}
 }
 @media(prefers-reduced-motion:reduce){
-  .why-gotham-check-gallery::before{animation:none;transform:scale(1.08)}
+  .check-spotlight::before{animation:none;transform:scale(1.1)}
 }
 </style>
 </body></html>
