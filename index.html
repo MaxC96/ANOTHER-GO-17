@@ -2062,7 +2062,7 @@ body.check-lightbox-open{overflow:hidden}
 }
 @media(max-width:900px){.check-proof-card{grid-template-columns:minmax(0,1.35fr) minmax(210px,.75fr)!important}}
 
-/* Widely dispersed opaque bills following smooth, single-direction wind arcs. */
+/* Four varied bill shapes falling in upright, predominantly vertical columns. */
 .why-gotham-check-gallery{
   isolation:isolate;
   background:linear-gradient(180deg,#f8fafc 0%,#f3f6f8 100%)!important;
@@ -2083,7 +2083,7 @@ body.check-lightbox-open{overflow:hidden}
 .money-rain i{
   --x:50%;--start-y:-110px;--duration:9.4s;--delay:-1s;--size:100px;
   --launch:0px;--p1:18px;--p2:-12px;--p3:28px;--p4:8px;--end:20px;
-  --flutter:1.9s;--phase:-.4s;--roll:6deg;
+  --flutter:1.9s;--phase:-.4s;--roll:4deg;--base-rot:82deg;
   position:absolute;left:var(--x);top:var(--start-y);width:var(--size);height:auto;aspect-ratio:1.53/1;
   border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important;
   opacity:0;filter:drop-shadow(0 6px 5px rgba(16,35,63,.24));
@@ -2103,13 +2103,15 @@ body.check-lightbox-open{overflow:hidden}
 }
 .money-rain i::after{display:none!important;content:none!important}
 .money-rain i:nth-child(even)::before{background-image:url("assets/images/real-hundred-bill-back-sprite.webp")!important}
-.money-rain i:nth-child(1){--x:0%;--start-y:-92px;--duration:10.2s;--delay:-8.9s;--size:102px;--launch:-22px;--p1:-10px;--p2:4px;--p3:20px;--p4:38px;--end:54px;--flutter:2.05s;--phase:-.3s;--roll:5deg}
-.money-rain i:nth-child(2){--x:16%;--start-y:-138px;--duration:8.8s;--delay:-4.3s;--size:82px;--launch:42px;--p1:32px;--p2:18px;--p3:2px;--p4:-15px;--end:-32px;--flutter:2.35s;--phase:-1.1s;--roll:4deg}
-.money-rain i:nth-child(3){--x:34%;--start-y:-72px;--duration:11.5s;--delay:-7.2s;--size:108px;--launch:-50px;--p1:-38px;--p2:-20px;--p3:2px;--p4:28px;--end:56px;--flutter:2.55s;--phase:-.7s;--roll:5deg}
-.money-rain i:nth-child(4){--x:53%;--start-y:-126px;--duration:9.6s;--delay:-2s;--size:88px;--launch:36px;--p1:28px;--p2:17px;--p3:3px;--p4:-14px;--end:-34px;--flutter:2.2s;--phase:-1.4s;--roll:4deg}
-.money-rain i:nth-child(5){--x:70%;--start-y:-82px;--duration:12s;--delay:-10.6s;--size:100px;--launch:-34px;--p1:-27px;--p2:-17px;--p3:-5px;--p4:9px;--end:24px;--flutter:2.7s;--phase:-.9s;--roll:5deg}
-.money-rain i:nth-child(6){--x:88%;--start-y:-152px;--duration:9.2s;--delay:-5.7s;--size:76px;--launch:48px;--p1:42px;--p2:35px;--p3:28px;--p4:21px;--end:14px;--flutter:2.45s;--phase:-1.7s;--roll:3deg;filter:blur(.25px) drop-shadow(0 4px 4px rgba(16,35,63,.2))}
-.money-rain i:nth-child(7){--x:45%;--start-y:-164px;--duration:12.7s;--delay:-11.5s;--size:70px;--launch:-54px;--p1:-40px;--p2:-20px;--p3:4px;--p4:30px;--end:58px;--flutter:2.9s;--phase:-1.2s;--roll:4deg;filter:blur(.4px) drop-shadow(0 4px 3px rgba(16,35,63,.18))}
+.money-rain i:nth-child(3)::before,.money-rain i:nth-child(5)::before{background-image:url("assets/images/real-hundred-bill-front-curl.webp")!important}
+.money-rain i:nth-child(4)::before,.money-rain i:nth-child(6)::before{background-image:url("assets/images/real-hundred-bill-back-fold.webp")!important}
+.money-rain i:nth-child(1){--x:0%;--start-y:-92px;--duration:10.2s;--delay:-8.9s;--size:102px;--launch:-4px;--p1:-2px;--p2:0px;--p3:2px;--p4:5px;--end:8px;--flutter:2.15s;--phase:-.3s;--roll:4deg;--base-rot:78deg}
+.money-rain i:nth-child(2){--x:16%;--start-y:-138px;--duration:8.8s;--delay:-4.3s;--size:82px;--launch:6px;--p1:5px;--p2:3px;--p3:1px;--p4:-2px;--end:-4px;--flutter:2.45s;--phase:-1.1s;--roll:3deg;--base-rot:-84deg}
+.money-rain i:nth-child(3){--x:34%;--start-y:-72px;--duration:11.5s;--delay:-7.2s;--size:108px;--launch:-8px;--p1:-6px;--p2:-3px;--p3:0px;--p4:2px;--end:5px;--flutter:2.7s;--phase:-.7s;--roll:4deg;--base-rot:92deg}
+.money-rain i:nth-child(4){--x:53%;--start-y:-126px;--duration:9.6s;--delay:-2s;--size:88px;--launch:5px;--p1:4px;--p2:2px;--p3:0px;--p4:-2px;--end:-5px;--flutter:2.3s;--phase:-1.4s;--roll:3deg;--base-rot:-76deg}
+.money-rain i:nth-child(5){--x:70%;--start-y:-82px;--duration:12s;--delay:-10.6s;--size:100px;--launch:-6px;--p1:-4px;--p2:-2px;--p3:0px;--p4:2px;--end:4px;--flutter:2.85s;--phase:-.9s;--roll:4deg;--base-rot:86deg}
+.money-rain i:nth-child(6){--x:88%;--start-y:-152px;--duration:9.2s;--delay:-5.7s;--size:76px;--launch:4px;--p1:3px;--p2:2px;--p3:1px;--p4:0px;--end:-2px;--flutter:2.55s;--phase:-1.7s;--roll:3deg;--base-rot:-90deg;filter:blur(.25px) drop-shadow(0 4px 4px rgba(16,35,63,.2))}
+.money-rain i:nth-child(7){--x:45%;--start-y:-164px;--duration:12.7s;--delay:-11.5s;--size:70px;--launch:-5px;--p1:-3px;--p2:-1px;--p3:1px;--p4:3px;--end:5px;--flutter:3s;--phase:-1.2s;--roll:3deg;--base-rot:80deg;filter:blur(.4px) drop-shadow(0 4px 3px rgba(16,35,63,.18))}
 .check-proof-card:nth-child(2) .money-rain i{animation-delay:calc(var(--delay) - 2.6s)!important}
 .check-proof-card:nth-child(2) .money-rain i:nth-child(1){--x:31%}.check-proof-card:nth-child(2) .money-rain i:nth-child(2){--x:79%}.check-proof-card:nth-child(2) .money-rain i:nth-child(3){--x:2%}.check-proof-card:nth-child(2) .money-rain i:nth-child(4){--x:92%}.check-proof-card:nth-child(2) .money-rain i:nth-child(5){--x:50%}.check-proof-card:nth-child(2) .money-rain i:nth-child(6){--x:65%}.check-proof-card:nth-child(2) .money-rain i:nth-child(7){--x:18%}
 .check-proof-card:nth-child(3) .money-rain i{animation-delay:calc(var(--delay) - 5.1s)!important}
@@ -2125,10 +2127,10 @@ body.check-lightbox-open{overflow:hidden}
   100%{opacity:0;transform:translate3d(var(--end),410px,0) scale(.99)}
 }
 @keyframes bill-free-flutter{
-  0%{transform:perspective(760px) rotateZ(calc(var(--roll) * -1)) rotateX(4deg) rotateY(-6deg) scaleX(.982) translateY(-1px)}
-  35%{transform:perspective(760px) rotateZ(calc(var(--roll) * -.25)) rotateX(-2deg) rotateY(2deg) scaleX(.995)}
-  65%{transform:perspective(760px) rotateZ(calc(var(--roll) * .25)) rotateX(2deg) rotateY(-2deg) scaleX(1)}
-  100%{transform:perspective(760px) rotateZ(var(--roll)) rotateX(-4deg) rotateY(6deg) scaleX(.982) translateY(1px)}
+  0%{transform:perspective(760px) rotateZ(calc(var(--base-rot) - var(--roll))) rotateX(4deg) rotateY(-5deg) scaleX(.985) translateX(-1px)}
+  35%{transform:perspective(760px) rotateZ(calc(var(--base-rot) - 1deg)) rotateX(-2deg) rotateY(2deg) scaleX(.996)}
+  65%{transform:perspective(760px) rotateZ(calc(var(--base-rot) + 1deg)) rotateX(2deg) rotateY(-2deg) scaleX(1)}
+  100%{transform:perspective(760px) rotateZ(calc(var(--base-rot) + var(--roll))) rotateX(-4deg) rotateY(5deg) scaleX(.985) translateX(1px)}
 }
 @media(max-width:620px){
   .money-rain i{--size:82px}
