@@ -2062,7 +2062,7 @@ body.check-lightbox-open{overflow:hidden}
 }
 @media(max-width:900px){.check-proof-card{grid-template-columns:minmax(0,1.35fr) minmax(210px,.75fr)!important}}
 
-/* Animated falling-money backdrop for the client recovery checks. */
+/* Animated falling-money backdrop for the client recovery checks. Visibility tuned after live review. */
 .why-gotham-check-gallery{
   isolation:isolate;
   background:#eef3f7!important;
@@ -2071,7 +2071,7 @@ body.check-lightbox-open{overflow:hidden}
   z-index:-2;
   inset:-7%!important;
   background:url("assets/images/falling-money-background.webp") center/cover no-repeat!important;
-  opacity:.5;
+  opacity:.78;
   filter:saturate(.78) contrast(.92) brightness(1.08);
   transform:translate3d(-1.25%,-3.5%,0) scale(1.08) rotate(-.35deg);
   transform-origin:center;
@@ -2085,8 +2085,8 @@ body.check-lightbox-open{overflow:hidden}
   inset:0;
   pointer-events:none;
   background:
-    linear-gradient(180deg,rgba(248,250,252,.82),rgba(240,245,248,.72)),
-    radial-gradient(circle at 50% 42%,rgba(255,255,255,.36),rgba(237,243,247,.64) 74%);
+    linear-gradient(180deg,rgba(248,250,252,.58),rgba(240,245,248,.52)),
+    radial-gradient(circle at 50% 42%,rgba(255,255,255,.18),rgba(237,243,247,.38) 74%);
 }
 .why-gotham-check-gallery > *{position:relative;z-index:1}
 .check-proof-card{background:rgba(255,255,255,.95)!important;backdrop-filter:blur(3px)}
@@ -2095,8 +2095,8 @@ body.check-lightbox-open{overflow:hidden}
   to{transform:translate3d(1.25%,3.5%,0) scale(1.13) rotate(.35deg)}
 }
 @media(max-width:620px){
-  .why-gotham-check-gallery::before{inset:-4%!important;opacity:.4;animation-duration:22s}
-  .why-gotham-check-gallery::after{background:rgba(244,248,251,.82)}
+  .why-gotham-check-gallery::before{inset:-4%!important;opacity:.64;animation-duration:22s}
+  .why-gotham-check-gallery::after{background:rgba(244,248,251,.64)}
 }
 @media(prefers-reduced-motion:reduce){
   .why-gotham-check-gallery::before{animation:none;transform:scale(1.08)}
