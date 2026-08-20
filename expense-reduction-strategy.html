@@ -217,6 +217,34 @@
 <div class="footer-bottom-row"><p class="copyright">© 2026 Gotham Solutions Group</p><div class="footer-legal"><a href="terms-and-conditions.html">Terms &amp; Conditions</a></div></div>
 </footer>
 <script src="assets/script.js?v=1.4.173" defer></script>
+
+<div class="gotham-ai-widget" aria-live="polite">
+  <button class="gotham-ai-toggle" aria-label="Open Gotham Solutions Assistant">
+    <span>Chat</span>
+  </button>
+  <div class="gotham-ai-panel" role="dialog" aria-label="Gotham Solutions Assistant">
+    <div class="gotham-ai-header">
+      <strong>Gotham Solutions Assistant</strong>
+      <button class="gotham-ai-close" aria-label="Close assistant">×</button>
+    </div>
+    <div class="gotham-ai-messages">
+      <div class="gotham-ai-message bot">
+        Hi — I can help you explore expense reduction, infrastructure design, and managed services. What would you like to improve?
+      </div>
+    </div>
+    <div class="gotham-ai-quick">
+      <button data-question="expense">Reduce expenses</button>
+      <button data-question="infrastructure">Design infrastructure</button>
+      <button data-question="managed">Managed services</button>
+      <button data-question="contact">Talk to Gotham</button>
+    </div>
+    <form class="gotham-ai-form">
+      <input type="text" maxlength="1200" autocomplete="off" placeholder="Ask a question..." aria-label="Ask a question">
+      <button type="submit">Send</button>
+    </form>
+  </div>
+</div>
+
 <script id="service-hero-stamp-animation">
 document.addEventListener('DOMContentLoaded', function(){
   var show = document.querySelector('.hero-stamp-showcase');
