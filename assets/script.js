@@ -551,3 +551,13 @@ document.addEventListener('DOMContentLoaded', function(){
     actions.appendChild(book);
   });
 });
+
+// Load the centralized team booking directory after the core site script.
+(function(){
+  if(document.querySelector('script[data-team-bookings-loader]'))return;
+  var script=document.createElement('script');
+  script.src='assets/team-bookings.js?v=1.0.0';
+  script.defer=true;
+  script.setAttribute('data-team-bookings-loader','true');
+  document.head.appendChild(script);
+})();
