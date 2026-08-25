@@ -48,6 +48,7 @@
 .team-card-booking-link,.team-qa-booking-link,.consultation-booking-button{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 16px;border:0;border-radius:10px;background:#2563eb;color:#fff;text-decoration:none;font-size:.88rem;font-weight:800;line-height:1;transition:transform .2s ease,background .2s ease,box-shadow .2s ease}\
 .team-card-booking-link:hover,.team-card-booking-link:focus-visible,.team-qa-booking-link:hover,.team-qa-booking-link:focus-visible,.consultation-booking-button:hover,.consultation-booking-button:focus-visible{background:#1d4ed8;transform:translateY(-1px);box-shadow:0 8px 20px rgba(37,99,235,.20)}\
 .team-card-booking-link:focus-visible,.team-qa-booking-link:focus-visible,.consultation-booking-button:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}\
+.clean-contact-method::before{background:linear-gradient(90deg,#2563eb,#60a5fa)!important}\
 .consultation-team-booking{padding-top:28px!important}\
 .consultation-team-booking-inner{max-width:1180px;margin:0 auto}\
 .consultation-team-booking-head{text-align:center;max-width:760px;margin:0 auto 34px}\
