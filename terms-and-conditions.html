@@ -42,6 +42,18 @@
     .signature-table td{min-width:240px;vertical-align:top}
     @media(max-width:700px){.signature-table{min-width:620px}.terms-subsections{padding-left:1.25rem}}
   </style>
+
+  <style>
+    /* Keep the global navigation visible while the long terms document scrolls. */
+    body.terms-document{
+      overflow-y:visible !important;
+    }
+    body.terms-document .site-header{
+      position:sticky !important;
+      top:0 !important;
+      z-index:1000 !important;
+    }
+  </style>
 </head><body class="terms-document">
 <a class="skip-link" href="#main-content">Skip to main content</a><header class="site-header" id="top">
   <a class="brand logo-brand" href="index.html" aria-label="Gotham Solutions Group home">
