@@ -503,3 +503,41 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   });
 });
+
+// Microsoft Bookings buttons on Meet the Team cards.
+document.addEventListener('DOMContentLoaded', function(){
+  const bookings = {
+    'Renso Reyes': 'https://bookings.cloud.microsoft/bookwithme/user/3a07f4f281ec43ce84c78b91c66e2f5e%40gothamtelecom.com/meetingtype/MOUtQafnsESZ6zq9LLfjug2?anonymous&ismsaljsauthenabled',
+    'Faith Robinson': 'https://bookings.cloud.microsoft/bookwithme/user/44b1ece85e7741ec95b08ac8ca7264cb%40gothamtelecom.com/meetingtype/iqXhc-CAN06SXWIHV4ekwg2?anonymous&ismsaljsauthenabled'
+  };
+
+  const style = document.createElement('style');
+  style.textContent = '.team-card-actions{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:14px;flex-wrap:wrap}.team-card-actions>.linkedin-link{margin:0}.team-card-booking-link{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 16px;border-radius:10px;background:#2563eb;color:#fff;text-decoration:none;font-size:.88rem;font-weight:800;line-height:1;transition:transform .2s ease,background .2s ease,box-shadow .2s ease}.team-card-booking-link:hover,.team-card-booking-link:focus-visible{background:#1d4ed8;transform:translateY(-1px);box-shadow:0 8px 20px rgba(37,99,235,.20)}.team-card-booking-link:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}';
+  document.head.appendChild(style);
+
+  document.querySelectorAll('.team-card').forEach(function(card){
+    const trigger = card.querySelector('.team-photo-button');
+    const linkedin = card.querySelector('.linkedin-link');
+    if(!trigger || !linkedin) return;
+    const person = trigger.getAttribute('data-team-person');
+    const bookingUrl = bookings[person];
+    if(!bookingUrl) return;
+
+    let actions = card.querySelector('.team-card-actions');
+    if(!actions){
+      actions = document.createElement('div');
+      actions.className = 'team-card-actions';
+      linkedin.parentNode.insertBefore(actions, linkedin);
+      actions.appendChild(linkedin);
+    }
+
+    const book = document.createElement('a');
+    book.className = 'team-card-booking-link';
+    book.href = bookingUrl;
+    book.target = '_blank';
+    book.rel = 'noopener';
+    book.textContent = 'Book a Meeting';
+    book.setAttribute('aria-label', 'Book a meeting with ' + person);
+    actions.appendChild(book);
+  });
+});
