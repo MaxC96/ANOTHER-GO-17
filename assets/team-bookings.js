@@ -191,7 +191,7 @@
 
     inner.appendChild(grid);
     section.appendChild(inner);
-    contactSection.insertAdjacentElement('afterend',section);
+    contactSection.insertAdjacentElement('beforebegin',section);
   }
 
   function init(){
