@@ -464,7 +464,8 @@ document.addEventListener("DOMContentLoaded", function(){
 document.addEventListener('DOMContentLoaded', function(){
   const bookings = {
     'Renso Reyes': 'https://bookings.cloud.microsoft/bookwithme/user/3a07f4f281ec43ce84c78b91c66e2f5e%40gothamtelecom.com/meetingtype/MOUtQafnsESZ6zq9LLfjug2?anonymous&ismsaljsauthenabled',
-    'Faith Robinson': 'https://bookings.cloud.microsoft/bookwithme/user/44b1ece85e7741ec95b08ac8ca7264cb%40gothamtelecom.com/meetingtype/iqXhc-CAN06SXWIHV4ekwg2?anonymous&ismsaljsauthenabled'
+    'Faith Robinson': 'https://bookings.cloud.microsoft/bookwithme/user/44b1ece85e7741ec95b08ac8ca7264cb%40gothamtelecom.com/meetingtype/iqXhc-CAN06SXWIHV4ekwg2?anonymous&ismsaljsauthenabled',
+    'Roberto Valle': 'https://bookings.cloud.microsoft/bookwithme/user/d3350cf96f2349ed994207e9fca8e8c9%40gothamtelecom.com?anonymous&ismsaljsauthenabled'
   };
   const modal = document.getElementById('teamQaModal');
   const linkedin = document.getElementById('teamQaLinkedin');
@@ -508,7 +509,8 @@ document.addEventListener('DOMContentLoaded', function(){
 document.addEventListener('DOMContentLoaded', function(){
   const bookings = {
     'Renso Reyes': 'https://bookings.cloud.microsoft/bookwithme/user/3a07f4f281ec43ce84c78b91c66e2f5e%40gothamtelecom.com/meetingtype/MOUtQafnsESZ6zq9LLfjug2?anonymous&ismsaljsauthenabled',
-    'Faith Robinson': 'https://bookings.cloud.microsoft/bookwithme/user/44b1ece85e7741ec95b08ac8ca7264cb%40gothamtelecom.com/meetingtype/iqXhc-CAN06SXWIHV4ekwg2?anonymous&ismsaljsauthenabled'
+    'Faith Robinson': 'https://bookings.cloud.microsoft/bookwithme/user/44b1ece85e7741ec95b08ac8ca7264cb%40gothamtelecom.com/meetingtype/iqXhc-CAN06SXWIHV4ekwg2?anonymous&ismsaljsauthenabled',
+    'Roberto Valle': 'https://bookings.cloud.microsoft/bookwithme/user/d3350cf96f2349ed994207e9fca8e8c9%40gothamtelecom.com?anonymous&ismsaljsauthenabled'
   };
 
   const style = document.createElement('style');
