@@ -504,7 +504,7 @@ document.addEventListener('DOMContentLoaded', function(){
   });
 });
 
-// Microsoft Bookings buttons on Meet the Team cards.
+// Book a Meeting controls on all Meet the Team cards.
 document.addEventListener('DOMContentLoaded', function(){
   const bookings = {
     'Renso Reyes': 'https://bookings.cloud.microsoft/bookwithme/user/3a07f4f281ec43ce84c78b91c66e2f5e%40gothamtelecom.com/meetingtype/MOUtQafnsESZ6zq9LLfjug2?anonymous&ismsaljsauthenabled',
@@ -512,7 +512,7 @@ document.addEventListener('DOMContentLoaded', function(){
   };
 
   const style = document.createElement('style');
-  style.textContent = '.team-card-actions{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:14px;flex-wrap:wrap}.team-card-actions>.linkedin-link{margin:0}.team-card-booking-link{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 16px;border-radius:10px;background:#2563eb;color:#fff;text-decoration:none;font-size:.88rem;font-weight:800;line-height:1;transition:transform .2s ease,background .2s ease,box-shadow .2s ease}.team-card-booking-link:hover,.team-card-booking-link:focus-visible{background:#1d4ed8;transform:translateY(-1px);box-shadow:0 8px 20px rgba(37,99,235,.20)}.team-card-booking-link:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}';
+  style.textContent = '.team-card-actions{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:14px;flex-wrap:wrap}.team-card-actions>.linkedin-link{margin:0}.team-card-booking-link{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 16px;border-radius:10px;background:#2563eb;color:#fff;text-decoration:none;font-size:.88rem;font-weight:800;line-height:1;transition:transform .2s ease,background .2s ease,box-shadow .2s ease}.team-card-booking-link:hover,.team-card-booking-link:focus-visible{background:#1d4ed8;transform:translateY(-1px);box-shadow:0 8px 20px rgba(37,99,235,.20)}.team-card-booking-link:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}.team-card-booking-link.is-placeholder{opacity:.72;cursor:default}.team-card-booking-link.is-placeholder:hover,.team-card-booking-link.is-placeholder:focus{background:#2563eb;transform:none;box-shadow:none}';
   document.head.appendChild(style);
 
   document.querySelectorAll('.team-card').forEach(function(card){
@@ -521,7 +521,6 @@ document.addEventListener('DOMContentLoaded', function(){
     if(!trigger || !linkedin) return;
     const person = trigger.getAttribute('data-team-person');
     const bookingUrl = bookings[person];
-    if(!bookingUrl) return;
 
     let actions = card.querySelector('.team-card-actions');
     if(!actions){
@@ -533,11 +532,19 @@ document.addEventListener('DOMContentLoaded', function(){
 
     const book = document.createElement('a');
     book.className = 'team-card-booking-link';
-    book.href = bookingUrl;
-    book.target = '_blank';
-    book.rel = 'noopener';
     book.textContent = 'Book a Meeting';
-    book.setAttribute('aria-label', 'Book a meeting with ' + person);
+
+    if(bookingUrl){
+      book.href = bookingUrl;
+      book.target = '_blank';
+      book.rel = 'noopener';
+      book.setAttribute('aria-label', 'Book a meeting with ' + person);
+    } else {
+      book.classList.add('is-placeholder');
+      book.setAttribute('aria-disabled','true');
+      book.setAttribute('aria-label', 'Booking link for ' + person + ' coming soon');
+      book.addEventListener('click', function(event){ event.preventDefault(); });
+    }
     actions.appendChild(book);
   });
 });
