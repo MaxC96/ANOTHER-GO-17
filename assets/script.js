@@ -75,11 +75,6 @@ const menuButton=document.querySelector('.menu-toggle');const nav=document.query
   });
 })();
 
-
-
-
-
-
 /* Valued Clients stable 5x5 rotating logo wall */
 document.addEventListener("DOMContentLoaded", function(){
   document.querySelectorAll(".client-logo-batch-grid").forEach(function(grid){
@@ -259,7 +254,6 @@ document.addEventListener("DOMContentLoaded", function(){
   });
 });
 
-
 // Subtle section reveal animations
 (function(){
   const targets = Array.from(document.querySelectorAll('main > section:not(.six-rubik-section):not(.gotham-partners-rubik-section), .site-footer'));
@@ -283,8 +277,6 @@ document.addEventListener("DOMContentLoaded", function(){
   }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
   targets.forEach(el => observer.observe(el));
 })();
-
-
 
 // Gotham Partners cube interaction: drag/swipe the whole cube as one object.
 (() => {
@@ -455,7 +447,6 @@ document.addEventListener("DOMContentLoaded", function(){
   }
 })();
 
-
 // v1-4-143: Click/touch/keyboard flip for Outcomes & Results cards.
 (() => {
   const cards = document.querySelectorAll('.outcome-flip-card');
@@ -468,3 +459,47 @@ document.addEventListener("DOMContentLoaded", function(){
     });
   });
 })();
+
+// Microsoft Bookings links for Meet the Team Q&A modal.
+document.addEventListener('DOMContentLoaded', function(){
+  const bookings = {
+    'Renso Reyes': 'https://bookings.cloud.microsoft/bookwithme/user/3a07f4f281ec43ce84c78b91c66e2f5e%40gothamtelecom.com/meetingtype/MOUtQafnsESZ6zq9LLfjug2?anonymous&ismsaljsauthenabled',
+    'Faith Robinson': 'https://bookings.cloud.microsoft/bookwithme/user/44b1ece85e7741ec95b08ac8ca7264cb%40gothamtelecom.com/meetingtype/iqXhc-CAN06SXWIHV4ekwg2?anonymous&ismsaljsauthenabled'
+  };
+  const modal = document.getElementById('teamQaModal');
+  const linkedin = document.getElementById('teamQaLinkedin');
+  if(!modal || !linkedin) return;
+
+  const actions = document.createElement('div');
+  actions.className = 'team-qa-actions';
+  linkedin.parentNode.insertBefore(actions, linkedin);
+  actions.appendChild(linkedin);
+
+  const book = document.createElement('a');
+  book.className = 'team-qa-booking-link';
+  book.target = '_blank';
+  book.rel = 'noopener';
+  book.textContent = 'Book a Meeting';
+  book.setAttribute('aria-label', 'Book a meeting');
+  book.hidden = true;
+  actions.appendChild(book);
+
+  const style = document.createElement('style');
+  style.textContent = '.team-qa-actions{display:flex;align-items:center;gap:12px;flex:0 0 auto;margin-top:16px}.team-qa-actions .team-qa-link{margin-top:0}.team-qa-booking-link{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border-radius:12px;background:#2563eb;color:#fff;text-decoration:none;font-weight:800;line-height:1;transition:transform .2s ease,background .2s ease,box-shadow .2s ease}.team-qa-booking-link:hover,.team-qa-booking-link:focus-visible{background:#1d4ed8;transform:translateY(-1px);box-shadow:0 8px 20px rgba(37,99,235,.22)}.team-qa-booking-link:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}.team-qa-booking-link[hidden]{display:none!important}@media(max-width:600px){.team-qa-actions{justify-content:center;flex-wrap:wrap}}';
+  document.head.appendChild(style);
+
+  document.querySelectorAll('.team-photo-button').forEach(function(trigger){
+    trigger.addEventListener('click', function(){
+      const person = trigger.getAttribute('data-team-person');
+      const url = bookings[person];
+      if(url){
+        book.href = url;
+        book.hidden = false;
+        book.setAttribute('aria-label', 'Book a meeting with ' + person);
+      } else {
+        book.hidden = true;
+        book.removeAttribute('href');
+      }
+    });
+  });
+});
