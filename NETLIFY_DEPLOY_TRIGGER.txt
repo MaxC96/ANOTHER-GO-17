@@ -1,0 +1,3 @@
+Production branch synchronized with main.
+Deployment trigger: 2026-08-26 contact page help panel update.
+Includes enlarged Not sure who to choose panel and removal of duplicate contact cards.
