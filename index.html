@@ -1282,7 +1282,7 @@ body > .testimonial-lightbox-final .testimonial-lightbox-close{
 </div>
 <div aria-label="Three documented client recovery checks" class="check-proof-grid">
 <article class="check-proof-card check-proof-blue">
-<button aria-label="View Verizon check for $68,305.59 in full" class="check-spotlight check-open" type="button">
+<button aria-label="View Verizon check for $68,305.59 in full" class="check-spotlight check-open" data-full-src="assets/why-gotham/check-cards/client-check-1-clean.png" type="button">
 <picture class="optimized-image" style="display:contents"><source srcset="assets/images/optimized/checks/client-check-1-clean.webp" type="image/webp"/><img alt="Verizon refund check for $68,305.59" decoding="async" loading="lazy" src="assets/why-gotham/check-cards/client-check-1-clean.png" width="1774" height="887"/></picture>
 <span class="money-rain" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
 <span class="check-view-hint">View full check</span>
@@ -1290,7 +1290,7 @@ body > .testimonial-lightbox-final .testimonial-lightbox-close{
 <div class="check-proof-copy"><span class="check-index">01</span><div><p>Verizon</p><strong>$68,305.59</strong></div></div>
 </article>
 <article class="check-proof-card check-proof-green">
-<button aria-label="View Con Edison check for $160,130.46 in full" class="check-spotlight check-open" type="button">
+<button aria-label="View Con Edison check for $160,130.46 in full" class="check-spotlight check-open" data-full-src="assets/why-gotham/check-cards/client-check-2-clean.png" type="button">
 <picture class="optimized-image" style="display:contents"><source srcset="assets/images/optimized/checks/client-check-2-clean.webp" type="image/webp"/><img alt="Con Edison recovery check for $160,130.46" decoding="async" loading="lazy" src="assets/why-gotham/check-cards/client-check-2-clean.png" width="2048" height="682"/></picture>
 <span class="money-rain" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
 <span class="check-view-hint">View full check</span>
@@ -1298,7 +1298,7 @@ body > .testimonial-lightbox-final .testimonial-lightbox-close{
 <div class="check-proof-copy"><span class="check-index">02</span><div><p>Con Edison</p><strong>$160,130.46</strong></div></div>
 </article>
 <article class="check-proof-card check-proof-gold">
-<button aria-label="View Verizon refund check for $28,126.95 in full" class="check-spotlight check-open" type="button">
+<button aria-label="View Verizon refund check for $28,126.95 in full" class="check-spotlight check-open" data-full-src="assets/why-gotham/check-cards/client-check-3-clean.png" type="button">
 <picture class="optimized-image" style="display:contents"><source srcset="assets/images/optimized/checks/client-check-3-clean.webp" type="image/webp"/><img alt="Verizon refund check for $28,126.95" decoding="async" loading="lazy" src="assets/why-gotham/check-cards/client-check-3-clean.png" width="2196" height="820"/></picture>
 <span class="money-rain" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
 <span class="check-view-hint">View full check</span>
@@ -2002,7 +2002,7 @@ body.check-lightbox-open{overflow:hidden}
     opener=button;
     fullImage.width=image.naturalWidth||Number(image.getAttribute('width'))||1774;
     fullImage.height=image.naturalHeight||Number(image.getAttribute('height'))||887;
-    fullImage.src=image.currentSrc||image.src;
+    fullImage.src=button.dataset.fullSrc||image.currentSrc||image.src;
     fullImage.alt=image.alt||'Full-size client check';
     lightbox.hidden=false;
     lightbox.setAttribute('aria-hidden','false');
