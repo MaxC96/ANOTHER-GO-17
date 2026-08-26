@@ -28,6 +28,26 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=1.4.173">
+  <style id="gotham-team-bookings-styles">
+    .team-card-actions{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:14px;flex-wrap:wrap}
+    .team-card-actions>.linkedin-link{margin:0}
+    .team-card-booking-link,.team-qa-booking-link,.consultation-booking-button{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 16px;border:0;border-radius:10px;background:#2563eb;color:#fff;text-decoration:none;font-size:.88rem;font-weight:800;line-height:1;transition:transform .2s ease,background .2s ease,box-shadow .2s ease}
+    .team-card-booking-link:hover,.team-card-booking-link:focus-visible,.team-qa-booking-link:hover,.team-qa-booking-link:focus-visible,.consultation-booking-button:hover,.consultation-booking-button:focus-visible{background:#1d4ed8;transform:translateY(-1px);box-shadow:0 8px 20px rgba(37,99,235,.20)}
+    .team-card-booking-link:focus-visible,.team-qa-booking-link:focus-visible,.consultation-booking-button:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}
+    .clean-contact-method::before{background:linear-gradient(90deg,#2563eb,#60a5fa)!important}
+    .consultation-team-booking{padding-top:clamp(56px,7vw,86px)!important;padding-bottom:56px!important}
+    .consultation-team-booking-inner{max-width:1180px;margin:0 auto}
+    .consultation-team-booking-head{text-align:center;max-width:760px;margin:0 auto 34px}
+    .consultation-team-booking-head h2{margin:.35rem 0 .75rem}
+    .consultation-team-booking-head p:last-child{margin:0;color:#66758a;font-size:1.05rem;line-height:1.65}
+    .consultation-team-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:20px}
+    .consultation-team-card{flex:1 1 205px;max-width:230px;min-width:195px;display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px 20px;border:1px solid #dfe7ef;border-radius:20px;background:#fff;box-shadow:0 14px 34px rgba(21,43,70,.08)}
+    .consultation-team-photo{width:96px;height:96px;border-radius:50%;object-fit:cover;margin-bottom:16px;border:4px solid rgba(37,99,235,.12)}
+    .consultation-team-card h3{margin:0 0 6px;color:#10233f;font-size:1.15rem}
+    .consultation-team-role{min-height:42px;margin:0 0 18px;color:#64748b;font-size:.86rem;font-weight:800;line-height:1.35;text-transform:uppercase;letter-spacing:.055em}
+    .consultation-booking-button{width:100%;margin-top:auto}
+    @media(max-width:620px){.consultation-team-booking{padding-left:20px!important;padding-right:20px!important}.consultation-team-card{max-width:100%;flex-basis:100%}}
+  </style>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -99,6 +119,48 @@
     <a href="managed-services.html">Managed Services</a>
   </nav>
 </header><main id="main-content">
+  <section class="section consultation-team-booking" id="team-booking-directory" aria-labelledby="team-booking-title">
+    <div class="consultation-team-booking-inner">
+      <div class="consultation-team-booking-head">
+        <p class="eyebrow">Schedule Directly</p>
+        <h1 id="team-booking-title">Choose who you would like to meet with.</h1>
+        <p>Select a Gotham team member to open their Microsoft Bookings calendar and choose an available time.</p>
+      </div>
+      <div class="consultation-team-grid" aria-label="Gotham team booking options">
+        <article class="consultation-team-card" data-team-person="Danya Cohan">
+          <img class="consultation-team-photo" src="assets/images/danya-art-optimized.webp" alt="Danya Cohan" loading="eager" decoding="async" width="800" height="800">
+          <h3>Danya Cohan</h3>
+          <p class="consultation-team-role">Founder & CEO</p>
+          <a class="consultation-booking-button" href="https://bookings.cloud.microsoft/bookwithme/user/bf34a3b24a0745c894b038c8042edc94%40gothamtelecom.com?anonymous&amp;ismsaljsauthenabled" target="_blank" rel="noopener" aria-label="Book a meeting with Danya Cohan">Book a Meeting</a>
+        </article>
+        <article class="consultation-team-card" data-team-person="Elie Theodore">
+          <img class="consultation-team-photo" src="assets/images/elie-art-optimized.webp" alt="Elie Theodore" loading="eager" decoding="async" width="800" height="800">
+          <h3>Elie Theodore</h3>
+          <p class="consultation-team-role">Vice President</p>
+          <a class="consultation-booking-button" href="https://bookings.cloud.microsoft/bookwithme/user/6024e26f7215492296622584fb568c2c%40gothamtelecom.com?anonymous&amp;ismsaljsauthenabled" target="_blank" rel="noopener" aria-label="Book a meeting with Elie Theodore">Book a Meeting</a>
+        </article>
+        <article class="consultation-team-card" data-team-person="Renso Reyes">
+          <img class="consultation-team-photo" src="assets/images/renso-art-optimized.webp" alt="Renso Reyes" loading="eager" decoding="async" width="800" height="800">
+          <h3>Renso Reyes</h3>
+          <p class="consultation-team-role">Customer Success</p>
+          <a class="consultation-booking-button" href="https://bookings.cloud.microsoft/bookwithme/user/3a07f4f281ec43ce84c78b91c66e2f5e%40gothamtelecom.com/meetingtype/MOUtQafnsESZ6zq9LLfjug2?anonymous&amp;ismsaljsauthenabled" target="_blank" rel="noopener" aria-label="Book a meeting with Renso Reyes">Book a Meeting</a>
+        </article>
+        <article class="consultation-team-card" data-team-person="Faith Robinson">
+          <img class="consultation-team-photo" src="assets/images/faith-art-optimized.webp" alt="Faith Robinson" loading="eager" decoding="async" width="800" height="800">
+          <h3>Faith Robinson</h3>
+          <p class="consultation-team-role">Operations Manager</p>
+          <a class="consultation-booking-button" href="https://bookings.cloud.microsoft/bookwithme/user/44b1ece85e7741ec95b08ac8ca7264cb%40gothamtelecom.com/meetingtype/iqXhc-CAN06SXWIHV4ekwg2?anonymous&amp;ismsaljsauthenabled" target="_blank" rel="noopener" aria-label="Book a meeting with Faith Robinson">Book a Meeting</a>
+        </article>
+        <article class="consultation-team-card" data-team-person="Roberto Valle">
+          <img class="consultation-team-photo" src="assets/images/roberto-art-optimized.webp" alt="Roberto Valle" loading="eager" decoding="async" width="800" height="800">
+          <h3>Roberto Valle</h3>
+          <p class="consultation-team-role">Mobility Analyst & Customer Success</p>
+          <a class="consultation-booking-button" href="https://bookings.cloud.microsoft/bookwithme/user/d3350cf96f2349ed994207e9fca8e8c9%40gothamtelecom.com?anonymous&amp;ismsaljsauthenabled" target="_blank" rel="noopener" aria-label="Book a meeting with Roberto Valle">Book a Meeting</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <section class="section clean-contact-section" aria-label="Contact Gotham Solutions Group">
     <div class="clean-contact-card">
       <a class="clean-contact-method" href="tel:1(212) 542-1300" aria-label="Call Gotham Solutions Group">
