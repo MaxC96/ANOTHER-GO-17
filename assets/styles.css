@@ -6963,3 +6963,89 @@ iframe, table { width: 100%; }
     align-items:flex-start;
   }
 }
+
+
+/* v1.4.176: organize footer certifications as a labeled logo group */
+.footer-certifications{
+  display:grid;
+  grid-template-columns:1fr;
+  align-items:center;
+  justify-items:center;
+  gap:10px;
+  width:min(100%,500px);
+  margin-left:auto;
+  text-align:center;
+}
+.footer-certifications > span{
+  width:100%;
+  margin:0;
+  text-align:center;
+}
+.footer-certification-marks{
+  display:grid;
+  grid-template-columns:1.45fr .72fr 1.25fr;
+  align-items:center;
+  justify-content:stretch;
+  gap:14px;
+  width:100%;
+  min-height:78px;
+  margin:0;
+}
+.footer-certification-marks img{
+  justify-self:center;
+}
+.footer-certification-marks .footer-wbe-logo{
+  width:min(100%,175px);
+  height:auto;
+  max-width:100%;
+}
+.footer-certification-marks .footer-wbe-seal{
+  width:min(100%,74px);
+  height:auto;
+  max-width:100%;
+}
+.footer-certification-marks .footer-wbe-certified-badge{
+  width:min(100%,165px);
+  height:auto;
+  max-width:100%;
+}
+
+@media(max-width:700px){
+  .footer-certifications{
+    width:100%;
+    margin-left:0;
+    text-align:center;
+  }
+  .footer-certifications > span{
+    margin-bottom:0;
+    text-align:center;
+  }
+  .footer-certification-marks{
+    grid-template-columns:1.45fr .62fr 1.25fr;
+    width:min(100%,320px);
+    min-height:60px;
+    margin-inline:auto;
+    gap:8px;
+  }
+  .footer-certification-marks .footer-wbe-logo{
+    width:min(100%,130px);
+    height:auto;
+  }
+  .footer-certification-marks .footer-wbe-seal{
+    width:min(100%,58px);
+    height:auto;
+  }
+  .footer-certification-marks .footer-wbe-certified-badge{
+    width:min(100%,112px);
+    height:auto;
+  }
+}
+
+@media(max-width:420px){
+  .footer-certifications{
+    gap:8px;
+  }
+  .footer-certification-marks{
+    gap:6px;
+  }
+}
