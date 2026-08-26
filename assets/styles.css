@@ -6868,3 +6868,98 @@ iframe, table { width: 100%; }
     margin-bottom: 14px !important;
   }
 }
+
+
+/* v1.4.174: keep footer identity and legal rows contained on narrow screens */
+@media(max-width:700px){
+  .site-footer,
+  .site-footer > *,
+  .footer-identity-row,
+  .footer-brand-concept,
+  .footer-certifications,
+  .footer-certification-marks,
+  .footer-bottom-row{
+    min-width:0;
+    max-width:100%;
+    box-sizing:border-box;
+  }
+
+  .footer-brand-concept{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 1px auto;
+    align-items:center;
+    width:420px;
+    gap:10px;
+  }
+  .footer-brand-concept span{
+    min-width:0;
+    white-space:normal;
+    line-height:1.3;
+  }
+  .footer-brand-concept::after{
+    width:1px;
+    height:36px;
+  }
+  .footer-brand-concept .footer-concept-logo{
+    height:46px;
+    max-width:54px;
+  }
+
+  .footer-certifications{
+    width:100%;
+  }
+  .footer-certification-marks{
+    display:grid;
+    grid-template-columns:minmax(0,1.55fr) minmax(42px,.62fr) minmax(0,1.35fr);
+    align-items:center;
+    justify-content:stretch;
+    width:min(100%,320px);
+    margin-left:auto;
+    gap:8px;
+  }
+  .footer-certification-marks .footer-wbe-logo{
+    width:min(100%,130px);
+    height:auto;
+    max-width:100%;
+  }
+  .footer-certification-marks .footer-wbe-seal{
+    width:min(100%,58px);
+    height:auto;
+    max-width:100%;
+  }
+  .footer-certification-marks .footer-wbe-certified-badge{
+    width:min(100%,112px);
+    height:auto;
+    max-width:100%;
+  }
+
+  .footer-bottom-row .footer-legal{
+    flex:1 1 100%;
+    margin-right:0;
+    padding-right:70px;
+  }
+}
+
+@media(max-width:420px){
+  .footer-brand-concept{
+    gap:8px;
+  }
+  .footer-brand-concept span{
+    font-size:12px;
+  }
+  .footer-brand-concept .footer-concept-logo{
+    height:42px;
+    max-width:50px;
+  }
+  .footer-certification-marks{
+    grid-template-columns:minmax(0,1.45fr) minmax(40px,.58fr) minmax(0,1.25fr);
+    gap:6px;
+  }
+  .footer-certifications > span{
+    font-size:10px;
+    line-height:1.25;
+  }
+  .footer-bottom-row{
+    align-items:flex-start;
+  }
+}
