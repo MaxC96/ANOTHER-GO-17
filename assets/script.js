@@ -468,3 +468,9 @@ document.addEventListener("DOMContentLoaded", function(){
   script.setAttribute('data-team-bookings-loader','true');
   document.head.appendChild(script);
 })();
+
+
+// v1.4.175: keep footer copyright year current.
+document.querySelectorAll('[data-current-year]').forEach((year) => {
+  year.textContent = String(new Date().getFullYear());
+});
