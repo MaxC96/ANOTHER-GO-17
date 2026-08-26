@@ -46,7 +46,16 @@
     .consultation-team-card h3{margin:0 0 7px;color:#10233f;font-size:clamp(1.2rem,1.5vw,1.4rem);line-height:1.2}
     .consultation-team-role{min-height:44px;margin:0 0 20px;color:#64748b;font-size:.9rem;font-weight:800;line-height:1.35;text-transform:uppercase;letter-spacing:.055em}
     .consultation-booking-button{width:100%;min-height:46px;margin-top:auto;font-size:.96rem}
-    @media(max-width:620px){.consultation-team-booking{padding-left:20px!important;padding-right:20px!important}.consultation-team-booking-head h1{font-size:clamp(42px,13vw,58px)}.consultation-team-card{max-width:100%;flex-basis:100%}}
+    .consultation-help{display:flex;align-items:center;justify-content:space-between;gap:24px;max-width:900px;margin:34px auto 0;padding:22px 24px;border:1px solid rgba(37,99,235,.18);border-radius:18px;background:rgba(239,246,255,.82);box-shadow:0 12px 30px rgba(21,43,70,.06)}
+    .consultation-help-copy{display:grid;gap:4px;text-align:left}
+    .consultation-help-copy strong{color:#10233f;font-size:1.08rem}
+    .consultation-help-copy span{color:#64748b;line-height:1.55}
+    .consultation-help-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    .consultation-help-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 15px;border:1px solid rgba(37,99,235,.22);border-radius:10px;background:#fff;color:#1d4ed8;text-decoration:none;font-size:.9rem;font-weight:850;white-space:nowrap;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+    .consultation-help-actions a:hover,.consultation-help-actions a:focus-visible{transform:translateY(-1px);border-color:#60a5fa;box-shadow:0 7px 18px rgba(37,99,235,.14)}
+    .consultation-help-actions a:focus-visible{outline:3px solid #bfdbfe;outline-offset:2px}
+    @media(max-width:760px){.consultation-help{align-items:stretch;flex-direction:column;text-align:center}.consultation-help-copy{text-align:center}.consultation-help-actions{justify-content:center}}
+    @media(max-width:620px){.consultation-team-booking{padding-left:20px!important;padding-right:20px!important}.consultation-team-booking-head h1{font-size:clamp(42px,13vw,58px)}.consultation-team-card{max-width:100%;flex-basis:100%}.consultation-help-actions a{flex:1 1 100%}}
   </style>
   <script type="application/ld+json">
   {
@@ -158,6 +167,16 @@
           <a class="consultation-booking-button" href="https://bookings.cloud.microsoft/bookwithme/user/d3350cf96f2349ed994207e9fca8e8c9%40gothamtelecom.com?anonymous&amp;ismsaljsauthenabled" target="_blank" rel="noopener" aria-label="Book a meeting with Roberto Valle">Book a Meeting</a>
         </article>
       </div>
+      <div class="consultation-help" role="note" aria-label="Help choosing a team member">
+        <div class="consultation-help-copy">
+          <strong>Not sure who to choose?</strong>
+          <span>Call or email Gotham and we’ll connect you with the right person.</span>
+        </div>
+        <div class="consultation-help-actions">
+          <a href="tel:1(212) 542-1300" aria-label="Call Gotham Solutions Group at 212-542-1300">Call (212) 542-1300</a>
+          <a href="mailto:Info@Gotham-It.com" aria-label="Email Gotham Solutions Group">Email Gotham</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -205,7 +224,7 @@
 </div>
 <div class="footer-bottom-row"><p class="copyright">© 2026 Gotham Solutions Group</p><div class="footer-legal"><a href="terms-and-conditions.html">Terms & Conditions</a></div></div>
 </footer>
-<script src="assets/script.js?v=1.4.173" defer></script>
+<script src="assets/script.js?v=1.4.174" defer></script>
 
 <div class="gotham-ai-widget" aria-live="polite">
   <button class="gotham-ai-toggle" aria-label="Open Gotham Solutions Assistant">
