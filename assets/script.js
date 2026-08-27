@@ -1,4 +1,21 @@
-const menuButton=document.querySelector('.menu-toggle');const nav=document.querySelector('.nav');if(menuButton&&nav){menuButton.addEventListener('click',()=>{nav.classList.toggle('open');menuButton.setAttribute('aria-expanded',nav.classList.contains('open')?'true':'false');});}
+const menuButton=document.querySelector('.menu-toggle');const nav=document.querySelector('.nav');if(menuButton&&nav){
+  if(!nav.id)nav.id='primary-navigation';
+  menuButton.setAttribute('aria-controls',nav.id);
+  const setNavigationState=(open,restoreFocus=false)=>{
+    nav.classList.toggle('open',open);
+    menuButton.setAttribute('aria-expanded',String(open));
+    menuButton.setAttribute('aria-label',open?'Close navigation':'Open navigation');
+    if(!open&&restoreFocus)menuButton.focus();
+  };
+  menuButton.addEventListener('click',()=>setNavigationState(!nav.classList.contains('open')));
+  nav.addEventListener('click',(event)=>{if(event.target.closest('a'))setNavigationState(false);});
+  document.addEventListener('keydown',(event)=>{
+    if(event.key==='Escape'&&nav.classList.contains('open')){
+      event.preventDefault();
+      setNavigationState(false,true);
+    }
+  });
+}
 
 // Gotham Solutions Assistant
 (function(){
@@ -11,6 +28,23 @@ const menuButton=document.querySelector('.menu-toggle');const nav=document.query
   const messages = widget.querySelector('.gotham-ai-messages');
   const form = widget.querySelector('.gotham-ai-form');
   const input = form.querySelector('input');
+
+  if(!panel.id) panel.id = 'gotham-solutions-assistant';
+  toggle.setAttribute('aria-controls', panel.id);
+  toggle.setAttribute('aria-expanded', 'false');
+  panel.setAttribute('aria-hidden', 'true');
+
+  function setPanelState(open, restoreFocus = false, initialFocus = close){
+    panel.classList.toggle('open', open);
+    panel.setAttribute('aria-hidden', String(!open));
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close Gotham Solutions Assistant' : 'Open Gotham Solutions Assistant');
+    if(open){
+      window.requestAnimationFrame(() => initialFocus.focus());
+    } else if(restoreFocus){
+      toggle.focus();
+    }
+  }
 
   const responses = {
     expense: "Gotham helps organizations identify savings opportunities through contract reviews, invoice analysis, vendor accountability, service validation, and Technology Expense Management. A good first step is a focused review of current contracts, invoices, and recurring services.",
@@ -51,8 +85,18 @@ const menuButton=document.querySelector('.menu-toggle');const nav=document.query
     return 'Gotham Solutions Group focuses on expense reduction strategy, infrastructure design, and managed services. To get specific guidance, call <a href="tel:+12125421300">212-542-1300</a>, email <a href="mailto:info@gothamsolutionsgroup.com">info@gothamsolutionsgroup.com</a>, or ask about one of those areas here.';
   }
 
-  toggle.addEventListener('click', () => panel.classList.toggle('open'));
-  close.addEventListener('click', () => panel.classList.remove('open'));
+  toggle.addEventListener('click', event => {
+    const opening = !panel.classList.contains('open');
+    setPanelState(opening, false, event.detail === 0 ? input : close);
+  });
+  close.addEventListener('click', () => setPanelState(false, true));
+
+  document.addEventListener('keydown', event => {
+    if(event.key === 'Escape' && panel.classList.contains('open')){
+      event.preventDefault();
+      setPanelState(false, true);
+    }
+  });
 
   widget.querySelectorAll('[data-question]').forEach(button => {
     button.addEventListener('click', () => {
@@ -77,6 +121,7 @@ const menuButton=document.querySelector('.menu-toggle');const nav=document.query
 
 /* Valued Clients stable 5x5 rotating logo wall */
 document.addEventListener("DOMContentLoaded", function(){
+  const reducedMotion = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : {matches:false};
   document.querySelectorAll(".client-logo-batch-grid").forEach(function(grid){
     const originalCards = Array.from(grid.querySelectorAll(".client-logo-card"));
     const logos = originalCards.map(function(card){
@@ -201,7 +246,7 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     async function rotate(){
-      if(isRotating || !wallInView || document.hidden) return;
+      if(isRotating || !wallInView || document.hidden || reducedMotion.matches) return;
       isRotating = true;
 
       const nextOffset = (offset + pageSize) % logos.length;
@@ -248,7 +293,7 @@ document.addEventListener("DOMContentLoaded", function(){
       }, 1100);
     }
 
-    if(logos.length > pageSize){
+    if(logos.length > pageSize && !reducedMotion.matches){
       setInterval(rotate, 12000);
     }
   });
@@ -282,7 +327,14 @@ document.addEventListener("DOMContentLoaded", function(){
 (() => {
   const cube = document.querySelector('.six-rubik-cube');
   const dragSurface = document.querySelector('.six-rubik-drag-surface');
-  if (!cube || !dragSurface) return;
+  const stage = document.querySelector('.six-rubik-stage');
+  if (!cube || !dragSurface || !stage) return;
+
+  const reducedMotion = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
+
+  if (!stage.hasAttribute('tabindex')) stage.tabIndex = 0;
+  if (!stage.hasAttribute('role')) stage.setAttribute('role', 'group');
+  stage.setAttribute('aria-label', 'Interactive Gotham Partners logo cube');
 
   cube.style.animation = 'none';
   cube.style.transformStyle = 'preserve-3d';
@@ -330,7 +382,7 @@ document.addEventListener("DOMContentLoaded", function(){
   };
 
   const startAnimation = () => {
-    if (animationFrameId || !cubeInView || document.hidden) return;
+    if (animationFrameId || !cubeInView || document.hidden || reducedMotion.matches) return;
     lastFrame = performance.now();
     animationFrameId = requestAnimationFrame(animate);
   };
@@ -356,6 +408,13 @@ document.addEventListener("DOMContentLoaded", function(){
     if (document.hidden) stopAnimation();
     else startAnimation();
   });
+
+  if (typeof reducedMotion.addEventListener === 'function') {
+    reducedMotion.addEventListener('change', () => {
+      if (reducedMotion.matches) stopAnimation();
+      else startAnimation();
+    });
+  }
 
   dragSurface.addEventListener('pointerdown', (event) => {
     if (dragging || (event.pointerType === 'mouse' && event.button !== 0)) return;
@@ -388,6 +447,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     lastX = event.clientX;
     lastY = event.clientY;
+    render();
     event.preventDefault();
   });
 
@@ -413,6 +473,23 @@ document.addEventListener("DOMContentLoaded", function(){
   dragSurface.addEventListener('pointerup', release);
   dragSurface.addEventListener('pointercancel', release);
   dragSurface.addEventListener('lostpointercapture', release);
+
+  stage.addEventListener('keydown', (event) => {
+    const step = event.shiftKey ? 30 : 12;
+    if (event.key === 'ArrowLeft') rotY -= step;
+    else if (event.key === 'ArrowRight') rotY += step;
+    else if (event.key === 'ArrowUp') rotX += step;
+    else if (event.key === 'ArrowDown') rotX -= step;
+    else if (event.key === 'Home') {
+      rotX = -18;
+      rotY = 30;
+    } else return;
+
+    event.preventDefault();
+    velocityX = 0;
+    velocityY = reducedMotion.matches ? 0 : 0.06;
+    render();
+  });
 
   render();
   startAnimation();

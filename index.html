@@ -26,7 +26,7 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<link href="assets/styles.css?v=1.4.176" rel="stylesheet"/>
+<link href="assets/styles.css?v=1.4.177" rel="stylesheet"/>
 <style id="testimonial-grid-final-css">
 /* Testimonial section tuned to match approved screenshot style */
 .testimonial-showcase{
@@ -1201,19 +1201,19 @@ body > .testimonial-lightbox-final .testimonial-lightbox-close{
 </div>
 <div aria-label="Client testimonial graphics" class="testimonial-rotator-final">
 <div class="testimonial-flip-row-final">
-<div class="testimonial-flip-card-final" style="--delay:0ms">
+<div aria-label="Open NYK Line testimonial" class="testimonial-flip-card-final" role="button" style="--delay:0ms" tabindex="0">
 <div class="testimonial-flip-inner-final">
 <figure class="testimonial-flip-face-final front"><img alt="NYK Line testimonial" class="testimonial-grid-image" decoding="async" loading="lazy" src="assets/images/testimonials/testimonial-nyk-line-optimized.webp" width="1100" height="1100"/></figure>
 <figure class="testimonial-flip-face-final back"><img alt="LeFrak testimonial" class="testimonial-grid-image" decoding="async" loading="lazy" src="assets/images/testimonials/testimonial-lefrak-v2-optimized.webp" width="1100" height="1100"/></figure>
 </div>
 </div>
-<div class="testimonial-flip-card-final" style="--delay:180ms">
+<div aria-label="Open Visiting Nurse Service of New York testimonial" class="testimonial-flip-card-final" role="button" style="--delay:180ms" tabindex="0">
 <div class="testimonial-flip-inner-final">
 <figure class="testimonial-flip-face-final front"><img alt="Visiting Nurse Service of New York testimonial" class="testimonial-grid-image" decoding="async" loading="lazy" src="assets/images/testimonials/testimonial-vnsny-optimized.webp" width="1100" height="1100"/></figure>
 <figure class="testimonial-flip-face-final back"><img alt="Global Infrastructure Partners testimonial" class="testimonial-grid-image" decoding="async" loading="lazy" src="assets/images/testimonials/testimonial-global-infrastructure-partners-optimized.webp" width="1100" height="1100"/></figure>
 </div>
 </div>
-<div class="testimonial-flip-card-final" style="--delay:360ms">
+<div aria-label="Open The Blackstone Group testimonial" class="testimonial-flip-card-final" role="button" style="--delay:360ms" tabindex="0">
 <div class="testimonial-flip-inner-final">
 <figure class="testimonial-flip-face-final front"><img alt="The Blackstone Group testimonial" class="testimonial-grid-image" decoding="async" loading="lazy" src="assets/images/testimonials/testimonial-blackstone-optimized.webp" width="1100" height="1100"/></figure>
 <figure class="testimonial-flip-face-final back"><img alt="L Catterton testimonial" class="testimonial-grid-image" decoding="async" loading="lazy" src="assets/images/testimonials/testimonial-l-catterton-optimized.webp" width="1100" height="1100"/></figure>
@@ -1221,7 +1221,7 @@ body > .testimonial-lightbox-final .testimonial-lightbox-close{
 </div>
 </div>
 </div>
-<div aria-hidden="true" class="testimonial-lightbox-final" id="testimonialLightboxFinal">
+<div aria-hidden="true" aria-label="Enlarged client testimonial" aria-modal="true" class="testimonial-lightbox-final" id="testimonialLightboxFinal" role="dialog">
 <button aria-label="Close enlarged testimonial" class="testimonial-lightbox-close" type="button">×</button>
 <img alt="Enlarged testimonial" width="1100" height="1100"/>
 </div>
@@ -1519,7 +1519,8 @@ body > .testimonial-lightbox-final .testimonial-lightbox-close{
 <h2>Gotham Partners</h2>
 <p class="section-lead">Trusted solutions across UCaaS, CCaaS, cybersecurity, mobility, cloud, and infrastructure.</p>
 <p class="rubik-interaction-note">Drag or swipe the cube to spin it.</p>
-<div aria-label="Interactive Gotham Partners Rubik cube. Drag or swipe the cube to spin it." class="six-rubik-stage">
+<div aria-describedby="rubik-keyboard-instructions" aria-label="Interactive Gotham Partners logo cube" class="six-rubik-stage" role="group" tabindex="0">
+<span class="sr-only" id="rubik-keyboard-instructions">Drag or swipe the cube, or use the arrow keys to rotate it. Press Home to reset its position.</span>
 <div aria-hidden="true" class="six-rubik-drag-surface"></div>
 <div class="six-rubik-cube">
 <div class="six-rubik-face six-rubik-front">
@@ -1675,7 +1676,7 @@ body > .testimonial-lightbox-final .testimonial-lightbox-close{
 </div>
 <div class="footer-bottom-row"><p class="copyright">© <span data-current-year>2026</span> Gotham Solutions Group</p><div class="footer-legal"><a href="terms-and-conditions.html">Terms &amp; Conditions</a></div></div>
 </footer>
-<script defer="" src="assets/script.js?v=1.4.175"></script>
+<script defer="" src="assets/script.js?v=1.4.177"></script>
 <div aria-live="polite" class="gotham-ai-widget">
 <button aria-label="Open Gotham Solutions Assistant" class="gotham-ai-toggle">
 <span>Chat</span>
@@ -1715,9 +1716,28 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 
   var lbImg = lb.querySelector('img');
+  var closeButton = lb.querySelector('.testimonial-lightbox-close');
   var cards = Array.prototype.slice.call(rotator.querySelectorAll('.testimonial-flip-card-final'));
+  var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var isAnimating = false;
   var rotatorInView = false;
+  var lastTrigger = null;
+
+  function getVisibleImage(card){
+    var selector = card.classList.contains('is-flipped') ? '.back img' : '.front img';
+    return card.querySelector(selector);
+  }
+
+  function syncCardAccessibility(card){
+    var faces = card.querySelectorAll('.testimonial-flip-face-final');
+    var isFlipped = card.classList.contains('is-flipped');
+    if(faces[0]) faces[0].setAttribute('aria-hidden', String(isFlipped));
+    if(faces[1]) faces[1].setAttribute('aria-hidden', String(!isFlipped));
+    var image = getVisibleImage(card);
+    card.setAttribute('aria-label', 'Open ' + ((image && image.alt) || 'client testimonial'));
+  }
+
+  cards.forEach(syncCardAccessibility);
 
   if('IntersectionObserver' in window){
     var rotatorObserver = new IntersectionObserver(function(entries){
@@ -1729,13 +1749,15 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 
   function flipCards(){
-    if(isAnimating || !cards.length || !rotatorInView || document.hidden) return;
+    if(isAnimating || !cards.length || !rotatorInView || document.hidden || reducedMotion || lb.classList.contains('is-open')) return;
+    if(rotator.matches(':hover') || rotator.contains(document.activeElement)) return;
     isAnimating = true;
 
     cards.forEach(function(card, i){
       window.setTimeout(function(){
         card.classList.add('is-turning');
         card.classList.toggle('is-flipped');
+        syncCardAccessibility(card);
         window.setTimeout(function(){ card.classList.remove('is-turning'); }, 760);
       }, i * 160);
     });
@@ -1745,10 +1767,15 @@ document.addEventListener('DOMContentLoaded', function(){
     }, 1120);
   }
 
-  window.setTimeout(flipCards, 2200);
-  window.setInterval(flipCards, 7600);
+  if(!reducedMotion){
+    window.setTimeout(flipCards, 2200);
+    window.setInterval(flipCards, 7600);
+  }
 
-  function openTestimonialModal(img){
+  function openTestimonialModal(card){
+    var img = getVisibleImage(card);
+    if(!img) return;
+    lastTrigger = card;
     lbImg.width = img.naturalWidth || Number(img.getAttribute('width')) || 1100;
     lbImg.height = img.naturalHeight || Number(img.getAttribute('height')) || 1100;
     lbImg.src = img.src;
@@ -1756,19 +1783,28 @@ document.addEventListener('DOMContentLoaded', function(){
     lb.classList.add('is-open');
     lb.setAttribute('aria-hidden','false');
     document.body.classList.add('testimonial-modal-open');
+    closeButton.focus();
   }
 
   function closeTestimonialModal(){
+    if(!lb.classList.contains('is-open')) return;
     lb.classList.remove('is-open');
     lb.setAttribute('aria-hidden','true');
     lbImg.removeAttribute('src');
     document.body.classList.remove('testimonial-modal-open');
+    if(lastTrigger) lastTrigger.focus();
   }
 
-  rotator.querySelectorAll('.testimonial-grid-image').forEach(function(img){
-    img.addEventListener('click', function(e){
+  cards.forEach(function(card){
+    card.addEventListener('click', function(){
       if(isAnimating) return;
-      openTestimonialModal(img);
+      openTestimonialModal(card);
+    });
+    card.addEventListener('keydown', function(e){
+      if((e.key === 'Enter' || e.key === ' ') && !isAnimating){
+        e.preventDefault();
+        openTestimonialModal(card);
+      }
     });
   });
 
@@ -1779,8 +1815,13 @@ document.addEventListener('DOMContentLoaded', function(){
   });
 
   document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape' && lb.classList.contains('is-open')){
+    if(!lb.classList.contains('is-open')) return;
+    if(e.key === 'Escape'){
+      e.preventDefault();
       closeTestimonialModal();
+    } else if(e.key === 'Tab'){
+      e.preventDefault();
+      closeButton.focus();
     }
   });
 });
@@ -1908,8 +1949,9 @@ document.addEventListener('DOMContentLoaded',function(){
     closeButton.focus();
   }
   function closeModal(){
+    if(!modal.classList.contains('is-open'))return;
     modal.classList.remove('is-open');modal.setAttribute('aria-hidden','true');document.body.classList.remove('team-qa-open');
-    if(lastTrigger)lastTrigger.focus();
+    if(lastTrigger)lastTrigger.focus();lastTrigger=null;
   }
   document.querySelectorAll('.team-photo-button').forEach(function(button){
     button.addEventListener('click',function(){openModal(button.getAttribute('data-team-person'),button);});
@@ -1918,11 +1960,13 @@ document.addEventListener('DOMContentLoaded',function(){
   modal.addEventListener('click',function(e){if(e.target===modal)closeModal();});
   document.addEventListener('keydown',function(e){
     if(!modal.classList.contains('is-open'))return;
-    if(e.key==='Escape')closeModal();
+    if(e.key==='Escape'){e.preventDefault();closeModal();return;}
     if(e.key==='Tab'){
-      var focusable=dialog.querySelectorAll('button,a[href]');
+      var focusable=Array.prototype.filter.call(dialog.querySelectorAll('button,a[href]'),function(element){return !element.hidden&&!element.hasAttribute('disabled')&&element.getAttribute('aria-hidden')!=='true';});
+      if(!focusable.length){e.preventDefault();closeButton.focus();return;}
       var first=focusable[0],last=focusable[focusable.length-1];
-      if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+      if(!dialog.contains(document.activeElement)){e.preventDefault();first.focus();}
+      else if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
       else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
     }
   });
@@ -2010,16 +2054,27 @@ body.check-lightbox-open{overflow:hidden}
     closeButton.focus();
   }
   function closeCheck(){
+    if(lightbox.hidden) return;
     lightbox.hidden=true;
     lightbox.setAttribute('aria-hidden','true');
     document.body.classList.remove('check-lightbox-open');
     fullImage.removeAttribute('src');
     if(opener) opener.focus();
+    opener=null;
   }
   document.querySelectorAll('.check-open').forEach(function(button){button.addEventListener('click',function(){openCheck(button);});});
   closeButton.addEventListener('click',closeCheck);
   lightbox.addEventListener('click',function(event){if(event.target===lightbox) closeCheck();});
-  document.addEventListener('keydown',function(event){if(event.key==='Escape'&&!lightbox.hidden) closeCheck();});
+  document.addEventListener('keydown',function(event){
+    if(lightbox.hidden) return;
+    if(event.key==='Escape'){
+      event.preventDefault();
+      closeCheck();
+    }else if(event.key==='Tab'){
+      event.preventDefault();
+      closeButton.focus();
+    }
+  });
 })();
 </script>
 <style id="v1-4-163-site-matched-check-section">

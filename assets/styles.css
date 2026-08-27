@@ -6823,6 +6823,16 @@ iframe, table { width: 100%; }
 .testimonial-flip-card-final.is-turning .testimonial-flip-inner-final{
   will-change:transform !important;
 }
+.testimonial-flip-card-final:focus-visible{
+  outline:3px solid var(--accent,#2563eb) !important;
+  outline-offset:6px !important;
+  border-radius:22px;
+}
+.six-rubik-stage:focus-visible{
+  outline:3px solid var(--accent,#2563eb) !important;
+  outline-offset:8px !important;
+  border-radius:28px;
+}
 .quote-track{
   animation-play-state:paused !important;
   will-change:auto !important;
