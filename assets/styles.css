@@ -7130,3 +7130,105 @@ iframe, table { width: 100%; }
     width:min(270px,82vw);
   }
 }
+
+
+/* v1.4.183: restrained footer hierarchy and alignment refinement. */
+html:not(.gsg-dark) .site-footer{
+  background:rgba(255,255,255,.90);
+}
+.site-footer{
+  row-gap:14px;
+  padding-top:32px !important;
+  padding-bottom:18px !important;
+}
+.site-footer .button.primary{
+  box-shadow:0 8px 20px rgba(37,99,235,.20) !important;
+}
+.footer-identity-row{
+  align-items:center;
+  gap:36px;
+  margin-top:4px;
+}
+.footer-brand-concept{
+  gap:12px;
+}
+.footer-brand-concept span{
+  color:#536176;
+  font-size:.92rem;
+  font-style:normal;
+  font-weight:600;
+  letter-spacing:.005em;
+}
+.footer-brand-concept::after{
+  height:36px;
+  background:rgba(15,23,42,.13);
+}
+.footer-brand-concept .footer-concept-logo{
+  height:50px;
+  filter:drop-shadow(0 1px 3px rgba(0,0,0,.06));
+}
+.footer-certifications{
+  width:min(100%,470px);
+  gap:7px;
+}
+.footer-certifications > span{
+  color:#64748b;
+  letter-spacing:.105em;
+}
+.footer-certification-marks{
+  grid-template-columns:1.38fr .68fr 1.24fr;
+  gap:12px;
+  min-height:70px;
+}
+.footer-certification-marks .footer-wbe-logo{width:min(100%,160px)}
+.footer-certification-marks .footer-wbe-seal{width:min(100%,66px)}
+.footer-certification-marks .footer-wbe-certified-badge{width:min(100%,150px)}
+.footer-bottom-row{
+  padding-top:13px;
+}
+.footer-bottom-row .footer-legal{
+  margin-right:108px;
+}
+@media(max-width:700px){
+  html:not(.gsg-dark) .site-footer{background:rgba(255,255,255,.94)}
+  .site-footer{
+    row-gap:13px;
+    padding-top:26px !important;
+    padding-bottom:16px !important;
+  }
+  .footer-identity-row{
+    gap:13px;
+    margin-top:2px;
+  }
+  .footer-brand-concept{
+    width:min(100%,420px);
+    gap:9px;
+  }
+  .footer-brand-concept span{
+    font-size:13px;
+    line-height:1.35;
+  }
+  .footer-brand-concept::after{height:32px}
+  .footer-brand-concept .footer-concept-logo{height:42px}
+  .footer-certifications{
+    width:100%;
+    gap:6px;
+  }
+  .footer-certification-marks{
+    width:min(100%,310px);
+    gap:7px;
+    min-height:56px;
+  }
+  .footer-bottom-row .footer-legal{
+    margin-right:68px;
+    padding-right:0;
+  }
+}
+@media(max-width:420px){
+  .footer-brand-concept span{font-size:12px}
+  .footer-certifications > span{
+    font-size:9.5px;
+    letter-spacing:.08em;
+  }
+  .footer-bottom-row .footer-legal{margin-right:62px}
+}
