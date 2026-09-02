@@ -3,10 +3,18 @@ https://www.gothamtelecom.com/* https://gothamsolutionsgroup.com/:splat 301!
 https://gotham-it.com/* https://gothamsolutionsgroup.com/:splat 301!
 https://www.gotham-it.com/* https://gothamsolutionsgroup.com/:splat 301!
 
-/expense-reduction-strategy.html /cost-recovery-optimization.html 301
-/expense-reduction-strategy /cost-recovery-optimization.html 301
-/services.html /cost-recovery-optimization.html 301
-/services /cost-recovery-optimization.html 301
-/case-studies.html /infrastructure-design.html 301
-/case-studies /infrastructure-design.html 301
-/about /about.html 301
+/index.html / 301!
+/about.html /about 301!
+/contact.html /contact 301!
+/cost-recovery-optimization.html /cost-recovery-optimization 301!
+/infrastructure-design.html /infrastructure-design 301!
+/managed-services.html /managed-services 301!
+/terms-and-conditions.html /terms-and-conditions 301!
+/thank-you.html /thank-you 301!
+
+/expense-reduction-strategy.html /cost-recovery-optimization 301!
+/expense-reduction-strategy /cost-recovery-optimization 301!
+/services.html /cost-recovery-optimization 301!
+/services /cost-recovery-optimization 301!
+/case-studies.html /infrastructure-design 301!
+/case-studies /infrastructure-design 301!
