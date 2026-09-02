@@ -1284,7 +1284,7 @@ body > .testimonial-lightbox-final .testimonial-lightbox-close{
 <article class="check-proof-card check-proof-blue">
 <button aria-label="View Verizon check for $68,305.59 in full" class="check-spotlight check-open" data-full-src="assets/why-gotham/check-cards/client-check-1-clean.png" type="button">
 <picture class="optimized-image" style="display:contents"><source srcset="assets/images/optimized/checks/client-check-1-clean.webp" type="image/webp"/><img alt="Verizon refund check for $68,305.59" decoding="async" loading="lazy" src="assets/why-gotham/check-cards/client-check-1-clean.png" width="1774" height="887"/></picture>
-<span class="money-rain" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+<span class="money-rain" aria-hidden="true"><video class="money-rain-video" autoplay muted loop playsinline preload="metadata"><source src="assets/video/falling-money-transparent.webm" type="video/webm"/></video><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
 <span class="check-view-hint">View full check</span>
 </button>
 <div class="check-proof-copy"><span class="check-index">01</span><div><p>Verizon</p><strong>$68,305.59</strong></div></div>
@@ -1292,7 +1292,7 @@ body > .testimonial-lightbox-final .testimonial-lightbox-close{
 <article class="check-proof-card check-proof-green">
 <button aria-label="View Con Edison check for $160,130.46 in full" class="check-spotlight check-open" data-full-src="assets/why-gotham/check-cards/client-check-2-clean.png" type="button">
 <picture class="optimized-image" style="display:contents"><source srcset="assets/images/optimized/checks/client-check-2-clean.webp" type="image/webp"/><img alt="Con Edison recovery check for $160,130.46" decoding="async" loading="lazy" src="assets/why-gotham/check-cards/client-check-2-clean.png" width="2048" height="682"/></picture>
-<span class="money-rain" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+<span class="money-rain" aria-hidden="true"><video class="money-rain-video" autoplay muted loop playsinline preload="metadata"><source src="assets/video/falling-money-transparent.webm" type="video/webm"/></video><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
 <span class="check-view-hint">View full check</span>
 </button>
 <div class="check-proof-copy"><span class="check-index">02</span><div><p>Con Edison</p><strong>$160,130.46</strong></div></div>
@@ -1300,7 +1300,7 @@ body > .testimonial-lightbox-final .testimonial-lightbox-close{
 <article class="check-proof-card check-proof-gold">
 <button aria-label="View Verizon refund check for $28,126.95 in full" class="check-spotlight check-open" data-full-src="assets/why-gotham/check-cards/client-check-3-clean.png" type="button">
 <picture class="optimized-image" style="display:contents"><source srcset="assets/images/optimized/checks/client-check-3-clean.webp" type="image/webp"/><img alt="Verizon refund check for $28,126.95" decoding="async" loading="lazy" src="assets/why-gotham/check-cards/client-check-3-clean.png" width="2196" height="820"/></picture>
-<span class="money-rain" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+<span class="money-rain" aria-hidden="true"><video class="money-rain-video" autoplay muted loop playsinline preload="metadata"><source src="assets/video/falling-money-transparent.webm" type="video/webm"/></video><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
 <span class="check-view-hint">View full check</span>
 </button>
 <div class="check-proof-copy"><span class="check-index">03</span><div><p>Verizon</p><strong>$28,126.95</strong></div></div>
@@ -2279,6 +2279,30 @@ body.check-lightbox-open{overflow:hidden}
   .money-rain i:nth-child(2){transform:translate3d(-6px,145px,0) rotate(5deg) scale(.82)}
   .money-rain i:nth-child(3){transform:translate3d(14px,230px,0) rotate(-4deg) scale(.94)}
   .money-rain i:nth-child(4){transform:translate3d(-9px,315px,0) rotate(6deg) scale(.8)}
+}
+
+/* v1.4.180: transparent reference video, with generated bills retained as fallback. */
+.money-rain-video{
+  position:absolute;inset:-3% 0 -3%;z-index:1;
+  display:block;width:100%;height:106%;
+  object-fit:cover;object-position:center center;
+  opacity:0;visibility:hidden;
+  pointer-events:none;
+  filter:contrast(1.04) saturate(.72);
+  transform:translateZ(0);
+}
+.money-rain.video-ready .money-rain-video{opacity:1;visibility:visible}
+.money-rain.video-ready i{display:none!important}
+.check-proof-card:nth-child(2) .money-rain.video-ready{transform:none}
+.check-proof-card:nth-child(2) .money-rain-video{transform:scaleX(-1)}
+.check-proof-card:nth-child(3) .money-rain-video{object-position:58% center}
+@media(max-width:620px){
+  .money-rain-video{inset:-2% 0;height:104%;object-position:center center}
+}
+@media(prefers-reduced-motion:reduce){
+  .money-rain-video{display:none!important}
+  .money-rain.video-ready i{display:block!important}
+  .money-rain.video-ready i:nth-child(n+5){display:none!important}
 }
 </style>
 </body></html>
