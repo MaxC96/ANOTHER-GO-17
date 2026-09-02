@@ -50,7 +50,7 @@ const menuButton=document.querySelector('.menu-toggle');const nav=document.query
     expense: "Gotham helps organizations identify savings opportunities through contract reviews, invoice analysis, vendor accountability, service validation, and Technology Expense Management. A good first step is a focused review of current contracts, invoices, and recurring services.",
     infrastructure: "Gotham supports infrastructure planning across network design, cloud communications, SD-WAN, connectivity, low voltage coordination, relocation planning, and implementation oversight.",
     managed: "Gotham can help evaluate, source, and coordinate managed services across IT support, cybersecurity, backup, endpoint strategy, cloud platforms, and vendor management.",
-    contact: 'You can call Gotham Solutions Group at <a href="tel:+12125421300">212-542-1300</a> or email <a href="mailto:Info@Gotham-It.com">Info@Gotham-It.com</a>. For the fastest start, share what you want to reduce, modernize, or simplify.'
+    contact: 'You can call Gotham Solutions Group at <a href="tel:+12125421300">212-542-1300</a> or email <a href="mailto:info@gothamsolutionsgroup.com">info@gothamsolutionsgroup.com</a>. For the fastest start, share what you want to reduce, modernize, or simplify.'
   };
 
   function addMessage(text, type, allowLinks = false){
@@ -82,7 +82,7 @@ const menuButton=document.querySelector('.menu-toggle');const nav=document.query
     if(q.includes('contact') || q.includes('call') || q.includes('email') || q.includes('consultation')){
       return responses.contact;
     }
-    return 'Gotham Solutions Group focuses on expense reduction strategy, infrastructure design, and managed services. To get specific guidance, call <a href="tel:+12125421300">212-542-1300</a>, email <a href="mailto:Info@Gotham-It.com">Info@Gotham-It.com</a>, or ask about one of those areas here.';
+    return 'Gotham Solutions Group focuses on expense reduction strategy, infrastructure design, and managed services. To get specific guidance, call <a href="tel:+12125421300">212-542-1300</a>, email <a href="mailto:info@gothamsolutionsgroup.com">info@gothamsolutionsgroup.com</a>, or ask about one of those areas here.';
   }
 
   toggle.addEventListener('click', event => {
