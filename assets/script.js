@@ -137,7 +137,7 @@ const menuButton=document.querySelector('.menu-toggle');const nav=document.query
   ];
 
   if(!panel.id) panel.id = 'gotham-solutions-assistant';
-  toggle.innerHTML = '<span class="gotham-ai-toggle-long">How Can We Help?</span><span class="gotham-ai-toggle-short">Help</span>';
+  toggle.innerHTML = '<span>Chat</span>';
   header.innerHTML = 'How Can We Help?<small>Guided Gotham assistant</small>';
   input.placeholder = 'Type a question or choose below';
   toggle.setAttribute('aria-controls', panel.id);

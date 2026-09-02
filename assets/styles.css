@@ -6678,14 +6678,13 @@ iframe, table { width: 100%; }
 
 /* v1.4.184: free guided Gotham assistant */
 .gotham-ai-toggle{
-  width:auto;
-  min-width:156px;
-  height:58px;
-  padding:0 22px;
-  font-size:15px;
+  width:68px;
+  min-width:68px;
+  height:68px;
+  padding:0;
+  font-size:18px;
   letter-spacing:.01em;
 }
-.gotham-ai-toggle-short{display:none !important;}
 .gotham-ai-header strong{
   display:flex;
   flex-direction:column;
@@ -6745,8 +6744,6 @@ iframe, table { width: 100%; }
     min-width:58px;
     padding:0;
   }
-  .gotham-ai-toggle-long{display:none !important;}
-  .gotham-ai-toggle-short{display:grid !important;}
   .gotham-ai-quick{max-height:210px;}
 }
 
