@@ -551,3 +551,18 @@ document.addEventListener("DOMContentLoaded", function(){
 document.querySelectorAll('[data-current-year]').forEach((year) => {
   year.textContent = String(new Date().getFullYear());
 });
+
+
+// v1.4.181: pause falling money while it is outside the viewport.
+(() => {
+  const rains = Array.from(document.querySelectorAll('.money-rain'));
+  if (!rains.length || !('IntersectionObserver' in window)) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      entry.target.classList.toggle('money-paused', !entry.isIntersecting);
+    });
+  }, { rootMargin: '120px 0px', threshold: 0 });
+
+  rains.forEach((rain) => observer.observe(rain));
+})();
