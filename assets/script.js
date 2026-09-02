@@ -551,3 +551,57 @@ document.addEventListener("DOMContentLoaded", function(){
 document.querySelectorAll('[data-current-year]').forEach((year) => {
   year.textContent = String(new Date().getFullYear());
 });
+
+
+// v1.4.180: activate transparent falling-money video with staggered playback.
+(() => {
+  const rains = Array.from(document.querySelectorAll('.money-rain'));
+  if (!rains.length) return;
+
+  const reducedMotion = window.matchMedia
+    ? window.matchMedia('(prefers-reduced-motion: reduce)')
+    : { matches: false };
+
+  rains.forEach((rain, index) => {
+    const video = rain.querySelector('.money-rain-video');
+    if (!video) return;
+
+    video.muted = true;
+    video.defaultMuted = true;
+
+    const useFallback = () => {
+      rain.classList.remove('video-ready');
+      video.pause();
+    };
+
+    const activateVideo = () => {
+      if (reducedMotion.matches) {
+        useFallback();
+        return;
+      }
+      rain.classList.add('video-ready');
+      const playAttempt = video.play();
+      if (playAttempt && typeof playAttempt.catch === 'function') {
+        playAttempt.catch(useFallback);
+      }
+    };
+
+    video.addEventListener('loadedmetadata', () => {
+      if (Number.isFinite(video.duration) && video.duration > 0) {
+        video.currentTime = (index * 1.9) % video.duration;
+      }
+    }, { once: true });
+
+    video.addEventListener('loadeddata', activateVideo);
+    video.addEventListener('error', useFallback);
+
+    if (video.readyState >= 2) activateVideo();
+
+    if (typeof reducedMotion.addEventListener === 'function') {
+      reducedMotion.addEventListener('change', () => {
+        if (reducedMotion.matches) useFallback();
+        else activateVideo();
+      });
+    }
+  });
+})();
