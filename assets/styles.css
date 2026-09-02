@@ -7059,3 +7059,74 @@ iframe, table { width: 100%; }
     gap:6px;
   }
 }
+
+
+/* v1.4.178: show a compact, scroll-safe interactive Gotham Partners cube on mobile. */
+@media (max-width:860px) and (prefers-reduced-motion:no-preference){
+  .six-rubik-stage{
+    display:grid;
+    width:min(100%,420px);
+    height:430px;
+    margin:22px auto 0;
+    perspective:1200px;
+  }
+  .rubik-fallback-grid{
+    display:none !important;
+  }
+  .six-rubik-cube{
+    --cube:240px;
+    --half:120px;
+  }
+  .six-rubik-face{
+    gap:7px;
+    padding:7px;
+    border-radius:24px;
+  }
+  .six-rubik-cell{
+    padding:8px;
+    border-radius:15px;
+  }
+  .six-rubik-cell img{
+    max-width:72px;
+    max-height:38px;
+  }
+  .six-rubik-stage::before{
+    bottom:42px;
+    width:62%;
+    height:34px;
+  }
+  .six-rubik-drag-surface{
+    width:min(310px,88vw);
+    touch-action:pan-y;
+  }
+}
+@media (max-width:560px) and (prefers-reduced-motion:no-preference){
+  .six-rubik-stage{
+    height:370px;
+    margin-top:14px;
+    perspective:1050px;
+  }
+  .six-rubik-cube{
+    --cube:210px;
+    --half:105px;
+  }
+  .six-rubik-face{
+    gap:6px;
+    padding:6px;
+    border-radius:21px;
+  }
+  .six-rubik-cell{
+    padding:6px;
+    border-radius:13px;
+  }
+  .six-rubik-cell img{
+    max-width:64px;
+    max-height:34px;
+  }
+  .six-rubik-stage::before{
+    bottom:34px;
+  }
+  .six-rubik-drag-surface{
+    width:min(270px,82vw);
+  }
+}
