@@ -2278,6 +2278,29 @@ body.check-lightbox-open{overflow:hidden}
 }
 .money-rain.money-paused i,
 .money-rain.money-paused i::before{animation-play-state:paused!important}
+
+/* v1.4.182: subtle per-bill fold and flex variation. */
+.money-rain i{
+  --bend:4deg;
+  --twist:6deg;
+  --warp:1deg;
+  --squash:.982;
+  --fold-origin:50% 50%;
+}
+.money-rain i::before{transform-origin:var(--fold-origin)!important}
+.money-rain i:nth-child(1){--bend:3.2deg;--twist:5deg;--warp:.7deg;--squash:.987;--fold-origin:38% 48%}
+.money-rain i:nth-child(2){--bend:5.1deg;--twist:7deg;--warp:-1.1deg;--squash:.974;--fold-origin:64% 43%}
+.money-rain i:nth-child(3){--bend:2.7deg;--twist:4.4deg;--warp:1.4deg;--squash:.991;--fold-origin:47% 62%}
+.money-rain i:nth-child(4){--bend:6deg;--twist:6.3deg;--warp:-.6deg;--squash:.969;--fold-origin:29% 54%}
+.money-rain i:nth-child(5){--bend:3.8deg;--twist:8deg;--warp:1deg;--squash:.98;--fold-origin:71% 57%}
+.money-rain i:nth-child(6){--bend:4.6deg;--twist:5.2deg;--warp:-1.5deg;--squash:.976;--fold-origin:55% 37%}
+.money-rain i:nth-child(7){--bend:2.9deg;--twist:6.8deg;--warp:.5deg;--squash:.989;--fold-origin:34% 66%}
+@keyframes bill-free-flutter{
+  0%{transform:perspective(760px) rotateZ(calc(var(--roll) * -1)) rotateX(var(--bend)) rotateY(calc(var(--twist) * -1)) skewY(var(--warp)) scaleY(var(--squash)) translateY(-1px)}
+  34%{transform:perspective(760px) rotateZ(calc(var(--roll) * -.3)) rotateX(calc(var(--bend) * -.45)) rotateY(calc(var(--twist) * .32)) skewY(calc(var(--warp) * -.4)) scaleY(.996)}
+  67%{transform:perspective(760px) rotateZ(calc(var(--roll) * .28)) rotateX(calc(var(--bend) * .38)) rotateY(calc(var(--twist) * -.24)) skewY(calc(var(--warp) * .3)) scaleY(1)}
+  100%{transform:perspective(760px) rotateZ(var(--roll)) rotateX(calc(var(--bend) * -1)) rotateY(var(--twist)) skewY(calc(var(--warp) * -.75)) scaleY(var(--squash)) translateY(1px)}
+}
 </style>
 </body></html>
 <style id="v1-4-137-stamp-backdrop-blur">
