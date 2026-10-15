@@ -1,0 +1,239 @@
+name: Gotham team directory update
+on:
+  push:
+    branches: [update/remove-faith-2026-10-15]
+    paths: [.github/workflows/gotham-team-update.yml]
+permissions:
+  contents: write
+jobs:
+  update-and-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install validation tools
+        run: |
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium
+          npm install --prefix /tmp/gotham-js-tools acorn
+      - name: Remove the two cards and rebalance the layouts
+        run: |
+          mkdir -p /tmp/gotham-team-qa/before /tmp/gotham-team-qa/after
+          python - <<'PY'
+          from pathlib import Path
+          import re, json, subprocess
+          expected = ['Danya Cohan', 'Elie Theodore', 'Renso Reyes', 'Roberto Valle']
+          for name, section, grid, card in [
+              ('index.html', '#about-us', '.team-grid', '.team-card'),
+              ('contact.html', '#team-booking-directory', '.consultation-team-grid', '.consultation-team-card'),
+          ]:
+              path = Path(name)
+              original = path.read_text()
+              Path('/tmp/gotham-team-qa/before', name).write_text(original)
+              matches = list(re.finditer(r'<article\b[^>]*>[\s\S]*?</article>', original))
+              targets = [m for m in matches if 'data-team-person="Faith Robinson"' in m.group()]
+              assert len(targets) == 1, (name, 'Expected exactly one Faith card', len(targets))
+              m = targets[0]
+              text = original[:m.start()] + original[m.end():]
+              assert text.count('</head>') == 1
+              selector = section + ' ' + grid
+              item = selector + ' > ' + card
+              css = '''\n<style id="gotham-four-person-team-layout">
+          /* Four active team members: 4 columns / 2 columns / 1 column. */
+          SELECTOR {
+            display: grid !important;
+            grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+            gap: 24px !important;
+            align-items: stretch !important;
+            width: 100% !important;
+            max-width: 1180px !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+          }
+          ITEM {
+            box-sizing: border-box !important;
+            grid-column: auto !important;
+            grid-row: auto !important;
+            width: 100% !important;
+            min-width: 0 !important;
+            max-width: none !important;
+            margin: 0 !important;
+          }
+          @media (max-width: 1000px) {
+            SELECTOR { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+          }
+          @media (max-width: 620px) {
+            SELECTOR { grid-template-columns: minmax(0, 1fr) !important; max-width: 420px !important; }
+          }
+          </style>\n'''.replace('SELECTOR', selector).replace('ITEM', item)
+              text = text.replace('</head>', css + '</head>')
+              for person in expected:
+                  assert 'data-team-person="' + person + '"' in text, (name, person)
+              path.write_text(text)
+          PY
+          cat > /tmp/gotham-js-tools/remove-profile.cjs <<'JS'
+          const fs = require('fs');
+          const path = require('path');
+          const acorn = require('acorn');
+          const changed = [];
+          function cleanup(code, label) {
+            if (!code.includes('Faith Robinson')) return code;
+            const ast = acorn.parse(code, {ecmaVersion:'latest', sourceType:'script', allowReturnOutsideFunction:true});
+            const ranges = [];
+            const keyOf = p => p && p.key && (p.key.name || p.key.value);
+            const isFaithObject = node => node && node.type === 'ObjectExpression' && node.properties.some(p => ['name','fullName'].includes(keyOf(p)) && p.value && p.value.value === 'Faith Robinson');
+            function removeItem(items, i) {
+              if (items.length === 1) ranges.push([items[i].start, items[i].end]);
+              else if (i < items.length - 1) ranges.push([items[i].start, items[i+1].start]);
+              else ranges.push([items[i-1].end, items[i].end]);
+            }
+            function walk(node) {
+              if (!node || typeof node !== 'object') return;
+              if (node.type === 'ObjectExpression') {
+                node.properties.forEach((p,i) => {
+                  if (keyOf(p) === 'Faith Robinson' || isFaithObject(p.value)) removeItem(node.properties, i);
+                });
+              }
+              if (node.type === 'ArrayExpression') {
+                node.elements.forEach((p,i) => { if(isFaithObject(p)) removeItem(node.elements, i); });
+              }
+              for (const [key,value] of Object.entries(node)) {
+                if (key === 'start' || key === 'end') continue;
+                if (Array.isArray(value)) value.forEach(walk);
+                else if (value && typeof value === 'object') walk(value);
+              }
+            }
+            walk(ast);
+            const sorted = ranges.sort((a,b) => a[0]-b[0]);
+            const merged=[];
+            for(const r of sorted) {
+              const last=merged[merged.length-1];
+              if(last && r[0]<=last[1]) last[1]=Math.max(last[1],r[1]);
+              else merged.push(r.slice());
+            }
+            for(const [start,end] of merged.reverse()) code=code.slice(0,start)+code.slice(end);
+            acorn.parse(code, {ecmaVersion:'latest', sourceType:'script', allowReturnOutsideFunction:true});
+            if(code.includes('Faith Robinson')) {
+              console.log(label, code.split('\n').filter(line => line.includes('Faith Robinson')));
+              throw new Error('A remaining Faith profile reference needs review in '+label);
+            }
+            console.log('Removed profile records:',label,merged.length);
+            return code;
+          }
+          const external = new Set();
+          for(const name of ['index.html','contact.html']) {
+            let html=fs.readFileSync(name,'utf8');
+            html=html.replace(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi,(whole,attrs,code)=>{
+              const src=attrs.match(/\bsrc\s*=\s*["']([^"']+)["']/i);
+              if(src) {
+                const file=src[1].split('?')[0].replace(/^\//,'');
+                if(!file.includes('://') && fs.existsSync(file)) external.add(file);
+                return whole;
+              }
+              if(/application\/ld\+json/i.test(attrs)) return whole;
+              return '<script'+attrs+'>'+cleanup(code,name+' inline script')+'</script>';
+            });
+            fs.writeFileSync(name,html);
+          }
+          for(const name of external) {
+            const code=fs.readFileSync(name,'utf8');
+            const cleaned=cleanup(code,name);
+            if(cleaned!==code) {
+              fs.mkdirSync(path.join('/tmp/gotham-team-qa/before',path.dirname(name)),{recursive:true});
+              fs.writeFileSync(path.join('/tmp/gotham-team-qa/before',name),code);
+              fs.writeFileSync(name,cleaned);
+              changed.push(name);
+            }
+          }
+          for(const name of ['index.html','contact.html']) {
+            let html=fs.readFileSync(name,'utf8');
+            for(const file of changed) {
+              const escaped=file.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+              html=html.replace(new RegExp(escaped+'(?:\\?[^"\\s>]+)?','g'),file+'?v=team4-20261015');
+            }
+            if(html.includes('Faith Robinson') || html.includes('faith-art-optimized') || html.includes('faith-robin/')) throw new Error('Remaining page reference: '+name);
+            fs.writeFileSync(name,html);
+          }
+          fs.writeFileSync('/tmp/gotham-team-qa/changed-scripts.json',JSON.stringify(changed));
+          JS
+          node /tmp/gotham-js-tools/remove-profile.cjs
+          git diff --check
+          git diff --stat
+          git diff -- index.html contact.html assets/script.js > /tmp/gotham-team-qa/changes.diff
+      - name: Check desktop, tablet, phone and remaining profile actions
+        run: |
+          python -m http.server 8765 >/tmp/gotham-server.log 2>&1 &
+          python - <<'PY'
+          from pathlib import Path
+          import json, re, time
+          from playwright.sync_api import sync_playwright
+          expected=['Danya Cohan','Elie Theodore','Renso Reyes','Roberto Valle']
+          reports=[]
+          with sync_playwright() as p:
+              browser=p.chromium.launch()
+              for width in [1440,1024,768,620,390,320]:
+                  for name,section,grid,card in [
+                      ('index.html','#about-us','.team-grid','.team-card'),
+                      ('contact.html','#team-booking-directory','.consultation-team-grid','.consultation-team-card'),
+                  ]:
+                      page=browser.new_page(viewport={'width':width,'height':1000},reduced_motion='reduce')
+                      errors=[]
+                      page.on('pageerror',lambda error: errors.append(str(error)))
+                      page.goto('http://127.0.0.1:8765/'+name,wait_until='networkidle')
+                      scope=page.locator(section)
+                      cards=scope.locator(grid+' > '+card)
+                      assert cards.count()==4,(name,width,cards.count())
+                      names=cards.locator('h3').all_text_contents()
+                      assert names==expected,(name,width,names)
+                      assert page.get_by_text('Faith Robinson',exact=False).count()==0
+                      metrics=cards.evaluate_all('els => els.map(e => { const r=e.getBoundingClientRect(); return {x:r.x,y:r.y,w:r.width,h:r.height,scroll:e.scrollWidth,client:e.clientWidth}; })')
+                      rows={round(m['y']) for m in metrics}
+                      expected_rows=4 if width<=620 else 2 if width<=1000 else 1
+                      assert len(rows)==expected_rows,(name,width,metrics)
+                      assert max(m['w'] for m in metrics)-min(m['w'] for m in metrics)<2,(name,width,'unequal widths',metrics)
+                      assert all(m['x']>=-1 and m['x']+m['w']<=width+1 and m['scroll']<=m['client']+1 for m in metrics),(name,width,'overflow',metrics)
+                      if name=='contact.html':
+                          before=Path('/tmp/gotham-team-qa/before/contact.html').read_text()
+                          links=cards.locator('a.consultation-booking-button').all()
+                          assert len(links)==4
+                          for link in links:
+                              href=link.get_attribute('href')
+                              assert 'bookings.cloud.microsoft/' in href
+                              assert href.replace('&','&amp;') in before
+                      scope.screenshot(path='/tmp/gotham-team-qa/after/'+name.replace('.html','')+'-'+str(width)+'.png',animations='disabled')
+                      if name=='index.html' and width in [1440,390]:
+                          for person in expected:
+                              page.locator('.team-photo-button[data-team-person="'+person+'"]').click()
+                              page.locator('#teamQaModal').wait_for(state='visible')
+                              assert page.locator('#teamQaName').inner_text()==person
+                              page.locator('.team-qa-close').click()
+                              page.locator('#teamQaModal').wait_for(state='hidden')
+                      reports.append({'page':name,'width':width,'names':names,'rows':len(rows),'metrics':metrics,'javascript_errors':errors})
+                      page.close()
+              browser.close()
+          Path('/tmp/gotham-team-qa/report.json').write_text(json.dumps(reports,indent=2))
+          print(json.dumps(reports,indent=2))
+          PY
+      - name: Commit only the reviewed website changes
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json, subprocess, shutil
+          files=['index.html','contact.html']+json.loads(Path('/tmp/gotham-team-qa/changed-scripts.json').read_text())
+          for file in files:
+              dest=Path('/tmp/gotham-team-qa/after/source',file)
+              dest.parent.mkdir(parents=True,exist_ok=True)
+              shutil.copy2(file,dest)
+          Path('.github/workflows/gotham-team-update.yml').unlink()
+          subprocess.run(['git','add','--',*files,'.github/workflows/gotham-team-update.yml'],check=True)
+          PY
+          git -c user.name='Gotham website maintenance' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'Remove Faith Robinson from team and contact; balance four-person responsive layouts'
+          git push origin HEAD:update/remove-faith-2026-10-15
+          git rev-parse HEAD > /tmp/gotham-team-qa/result-commit.txt
+      - name: Save verification screenshots and change record
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gotham-four-person-team-checks
+          path: /tmp/gotham-team-qa
+          retention-days: 14
