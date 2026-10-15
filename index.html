@@ -1165,6 +1165,35 @@ body > .testimonial-lightbox-final .testimonial-lightbox-close{
     ]
   }
   </script>
+
+<style id="gotham-four-person-team-layout">
+/* Four active team members: 4 columns / 2 columns / 1 column. */
+#about-us .team-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 24px !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  max-width: 1180px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+#about-us .team-grid > .team-card {
+  box-sizing: border-box !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
+@media (max-width: 1000px) {
+  #about-us .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 620px) {
+  #about-us .team-grid { grid-template-columns: minmax(0, 1fr) !important; max-width: 420px !important; }
+}
+</style>
 </head><body>
 <a class="skip-link" href="#main-content">Skip to main content</a>
 <header class="site-header" id="top">
@@ -1481,13 +1510,7 @@ body > .testimonial-lightbox-final .testimonial-lightbox-close{
 <p>Helps organizations evaluate, implement, and optimize infrastructure, connectivity, and business technology solutions.</p>
 <a class="linkedin-link" href="https://www.linkedin.com/in/renso-reyes-b85873167/" rel="noopener" target="_blank"><span aria-hidden="true" class="linkedin-icon">in</span><span class="sr-only">LinkedIn</span></a>
 </article>
-<article class="team-card">
-<button aria-label="Open Q and A with Faith Robinson" class="team-photo-button" data-team-person="Faith Robinson" type="button"><img alt="Faith Robinson" class="team-photo" decoding="async" loading="lazy" src="assets/images/faith-art-optimized.webp" width="800" height="800"/></button>
-<h3>Faith Robinson</h3>
-<p class="team-role">Operations Manager</p>
-<p>Focuses on communication, coordination, client experience, and the operational follow-through that keeps projects moving.</p>
-<a class="linkedin-link" href="https://www.linkedin.com/in/faith-robin/" rel="noopener" target="_blank"><span aria-hidden="true" class="linkedin-icon">in</span><span class="sr-only">LinkedIn</span></a>
-</article>
+
 <article class="team-card">
 <button aria-label="Open Q and A with Roberto Valle" class="team-photo-button" data-team-person="Roberto Valle" type="button"><img alt="Roberto Valle" class="team-photo" decoding="async" loading="lazy" src="assets/images/roberto-art-optimized.webp" width="800" height="800"/></button>
 <h3>Roberto Valle</h3>
@@ -1919,11 +1942,6 @@ document.addEventListener('DOMContentLoaded',function(){
       ['How do you support Gotham clients?','I look beyond the immediate request to understand what a client is really trying to accomplish. Whether it’s connectivity, communications, infrastructure, or cost optimization, my goal is to simplify the technology, uncover opportunities, and make sure the solution actually delivers value.'],
       ['What does customer success mean at Gotham?','Customer success is when the value of a decision becomes more apparent over time. The best solutions do more than solve today’s problem. They create clarity, remove friction, and put the client in a better position for whatever comes next.'],
       ['How do you build strong client relationships?','Trust is built through consistency. I listen, communicate clearly, follow through, and make sure my clients know they can rely on me. I’ve practiced and taught martial arts for years, and many of the same principles apply to business: discipline, patience, adaptability, and respect. Whether I’m teaching a student or working with a client, I believe the best relationships are built by understanding the person in front of you and being genuinely invested in their success.']
-    ]},
-    'Faith Robinson':{role:'Operations Manager',photo:'assets/images/faith-art-optimized.webp',linkedin:'https://www.linkedin.com/in/faith-robin/',qa:[
-      ['What do you manage behind the scenes?','I manage the day-to-day operations that keep everything running smoothly, from coordinating projects and schedules to keeping communication clear between leadership, the team, clients, and vendors. I keep our well-oiled machine rolling!'],
-      ['How do you keep projects organized?','I keep projects organized by setting clear next steps, tracking deadlines, and regularly following up with everyone involved. I also make sure the team knows what is outstanding, and I am big on calendaring everything—even blocking out time to finish certain tasks.'],
-      ['What creates a strong client experience?','For me, a strong client experience comes from clear communication, being responsive, and following through on what we promise. Clients should always feel informed, supported, and confident that their needs are being handled by our team. That is why our clients choose Gotham—they trust that we will always get the job done, no matter the difficulty or time required.']
     ]},
     'Roberto Valle':{role:'Mobility Analyst & Customer Success',photo:'assets/images/roberto-art-optimized.webp',linkedin:'https://www.linkedin.com/in/roberto-valle-5b238b344/',qa:[
       ['What areas do you support?','I support mobility management and client reporting, including carrier billing, usage analysis, line audits, cost optimization, device upgrades, and day-to-day support across wireless services.'],
