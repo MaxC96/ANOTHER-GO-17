@@ -114,6 +114,35 @@
     ]
   }
   </script>
+
+<style id="gotham-four-person-team-layout">
+/* Four active team members: 4 columns / 2 columns / 1 column. */
+#team-booking-directory .consultation-team-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 24px !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  max-width: 1180px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+#team-booking-directory .consultation-team-grid > .consultation-team-card {
+  box-sizing: border-box !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
+@media (max-width: 1000px) {
+  #team-booking-directory .consultation-team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 620px) {
+  #team-booking-directory .consultation-team-grid { grid-template-columns: minmax(0, 1fr) !important; max-width: 420px !important; }
+}
+</style>
 </head><body>
 <a class="skip-link" href="#main-content">Skip to main content</a><header class="site-header" id="top">
   <a class="brand logo-brand" href="/" aria-label="Gotham Solutions Group home">
@@ -153,12 +182,7 @@
           <p class="consultation-team-role">Customer Success</p>
           <a class="consultation-booking-button" href="https://bookings.cloud.microsoft/bookwithme/user/3a07f4f281ec43ce84c78b91c66e2f5e%40gothamtelecom.com/meetingtype/MOUtQafnsESZ6zq9LLfjug2?anonymous&amp;ismsaljsauthenabled" target="_blank" rel="noopener" aria-label="Book a meeting with Renso Reyes">Book a Meeting</a>
         </article>
-        <article class="consultation-team-card" data-team-person="Faith Robinson">
-          <img class="consultation-team-photo" src="assets/images/faith-art-optimized.webp" alt="Faith Robinson" loading="eager" decoding="async" width="800" height="800">
-          <h3>Faith Robinson</h3>
-          <p class="consultation-team-role">Operations Manager</p>
-          <a class="consultation-booking-button" href="https://bookings.cloud.microsoft/bookwithme/user/44b1ece85e7741ec95b08ac8ca7264cb%40gothamtelecom.com/meetingtype/iqXhc-CAN06SXWIHV4ekwg2?anonymous&amp;ismsaljsauthenabled" target="_blank" rel="noopener" aria-label="Book a meeting with Faith Robinson">Book a Meeting</a>
-        </article>
+
         <article class="consultation-team-card" data-team-person="Roberto Valle">
           <img class="consultation-team-photo" src="assets/images/roberto-art-optimized.webp" alt="Roberto Valle" loading="eager" decoding="async" width="800" height="800">
           <h3>Roberto Valle</h3>
