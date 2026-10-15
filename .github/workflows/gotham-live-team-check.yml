@@ -1,0 +1,49 @@
+name: Verify published Gotham team update
+on:
+  push:
+    branches: [update/remove-faith-2026-10-15]
+    paths: [.github/workflows/gotham-live-team-check.yml]
+permissions:
+  contents: read
+jobs:
+  verify-live-pages:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Read both live pages with cache bypass
+        run: |
+          python - <<'PY'
+          from urllib.request import Request, urlopen
+          import json, time, re
+          from pathlib import Path
+          reports=[]
+          for route,cls in [('/', 'team-card'),('/contact','consultation-team-card')]:
+              for attempt in range(4):
+                  url='https://gothamsolutionsgroup.com'+route+'?verify_team=81728b35-'+str(int(time.time()))
+                  try:
+                      req=Request(url,headers={'Cache-Control':'no-cache','User-Agent':'Gotham-Site-Verification'})
+                      with urlopen(req,timeout=25) as response:
+                          text=response.read().decode('utf-8')
+                          headers=dict(response.headers)
+                          status=response.status
+                      cards=re.findall(r'<article\b[^>]*class="'+cls+r'"[^>]*>[\s\S]*?</article>',text)
+                      names=[re.search(r'<h3[^>]*>(.*?)</h3>',c).group(1) for c in cards]
+                      good='gotham-four-person-team-layout' in text and 'Faith Robinson' not in text and names==['Danya Cohan','Elie Theodore','Renso Reyes','Roberto Valle']
+                      record={'route':route,'status':status,'verified':good,'names':names,'layout_present':'gotham-four-person-team-layout' in text,'server':headers.get('Server'),'attempt':attempt+1}
+                      print(json.dumps(record),flush=True)
+                      if good: break
+                  except Exception as e:
+                      record={'route':route,'verified':False,'error':str(e),'attempt':attempt+1}
+                      print(json.dumps(record),flush=True)
+                  if attempt<3: time.sleep(15)
+              reports.append(record)
+          Path('/tmp/gotham-live-verification.json').write_text(json.dumps(reports,indent=2))
+          assert all(r['verified'] for r in reports), 'The updated source is committed, but the live deployment could not be verified.'
+          print('SUCCESS: Both live production pages show the four-person team and new responsive layout.')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gotham-live-team-verification
+          path: /tmp/gotham-live-verification.json
+          retention-days: 14
