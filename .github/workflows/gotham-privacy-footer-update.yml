@@ -1,0 +1,164 @@
+name: Gotham privacy footer update
+on:
+  push:
+    branches: [update/privacy-footer-2026-10-16]
+    paths: [.github/workflows/gotham-privacy-footer-update.yml]
+permissions:
+  contents: write
+jobs:
+  update-and-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare browser checks
+        run: |
+          python -m pip install playwright beautifulsoup4
+          python -m playwright install --with-deps chromium
+      - name: Add the existing privacy policy beside the terms link
+        run: |
+          mkdir -p /tmp/gotham-privacy-qa/before /tmp/gotham-privacy-qa/after/source /tmp/gotham-privacy-qa/screenshots
+          python - <<'PY'
+          from pathlib import Path
+          from bs4 import BeautifulSoup
+          import re, json, hashlib, html
+          out=Path('/tmp/gotham-privacy-qa')
+          policy=Path('sms-privacy.html')
+          assert policy.exists()
+          group_re=re.compile(r'<div\b[^>]*class=["\'][^"\']*\bfooter-legal\b[^"\']*["\'][^>]*>([\s\S]*?)</div>')
+          anchor_re=re.compile(r'<a\b[^>]*>[\s\S]*?</a>')
+          changed=[]
+          for path in sorted(Path('.').glob('*.html')):
+              original=path.read_text()
+              groups=list(group_re.finditer(original))
+              if not groups:
+                  assert not BeautifulSoup(original,'html.parser').select('footer a[href="/terms-and-conditions"]'),str(path)
+                  continue
+              assert len(groups)==1,(str(path),len(groups))
+              m=groups[0]
+              old=m.group()
+              inside=m.group(1)
+              anchors=anchor_re.findall(inside)
+              nonlinks=html.unescape(anchor_re.sub('',inside)).strip(' \n\r\t\u00b7|')
+              assert not nonlinks,(str(path),'Unexpected footer content',nonlinks)
+              parsed=[BeautifulSoup(a,'html.parser').a for a in anchors]
+              terms=[i for i,a in enumerate(parsed) if a.get('href','').strip('/').removesuffix('.html')=='terms-and-conditions']
+              assert len(terms)==1,(str(path),'Expected one terms link')
+              privacy=[i for i,a in enumerate(parsed) if a.get('href','').strip('/').removesuffix('.html')=='sms-privacy']
+              assert len(privacy)<=1
+              preserved=[a for i,a in enumerate(anchors) if i not in privacy]
+              ti=next(i for i,a in enumerate(preserved) if BeautifulSoup(a,'html.parser').a.get('href','').strip('/').removesuffix('.html')=='terms-and-conditions')
+              preserved.insert(ti+1,'<a href="/sms-privacy">Privacy Policy</a>')
+              replacement='<div class="footer-legal" style="display:flex;align-items:center;flex-wrap:wrap;gap:8px 18px">'+' '.join(preserved)+'</div>'
+              updated=original[:m.start()]+replacement+original[m.end():]
+              # No header, body copy, legal wording, scripts, or team data are changed.
+              assert updated.replace(replacement,old,1)==original
+              soup=BeautifulSoup(updated,'html.parser')
+              links=soup.select('footer .footer-legal a')
+              labels=[a.get_text(' ',strip=True) for a in links]
+              assert labels.count('Privacy Policy')==1
+              assert links[labels.index('Privacy Policy')-1].get('href','').strip('/').removesuffix('.html')=='terms-and-conditions'
+              (out/'before'/path.name).write_text(original)
+              (out/'after/source'/path.name).write_text(updated)
+              path.write_text(updated)
+              changed.append(path.name)
+          assert {'index.html','contact.html','terms-and-conditions.html','sms-privacy.html'}.issubset(changed)
+          (out/'changed-files.json').write_text(json.dumps(changed,indent=2))
+          css=Path('assets/styles.css').read_text()
+          rules=re.findall(r'[^{}]*footer-legal[^{}]*\{[^{}]*\}',css)
+          (out/'existing-footer-styles.txt').write_text('\n'.join(rules))
+          print('Updated footer links:',json.dumps(changed))
+          print('Existing footer styles:', '\n'.join(rules))
+          PY
+          git diff --check
+          git diff --stat
+          git diff -- '*.html' > /tmp/gotham-privacy-qa/changes.diff
+      - name: Verify link placement, navigation, responsive layout, and unchanged policy text
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from http.server import ThreadingHTTPServer,SimpleHTTPRequestHandler
+          from urllib.parse import urlsplit
+          from threading import Thread
+          from bs4 import BeautifulSoup
+          from playwright.sync_api import sync_playwright
+          import json
+          root=Path.cwd()
+          out=Path('/tmp/gotham-privacy-qa')
+          files=json.loads((out/'changed-files.json').read_text())
+          class Handler(SimpleHTTPRequestHandler):
+              def translate_path(self,path):
+                  result=super().translate_path(path)
+                  if not Path(result).exists() and Path(result+'.html').is_file(): return result+'.html'
+                  return result
+              def log_message(self,*args): pass
+          server=ThreadingHTTPServer(('127.0.0.1',8765),Handler)
+          Thread(target=server.serve_forever,daemon=True).start()
+          reports=[]
+          with sync_playwright() as p:
+              browser=p.chromium.launch()
+              for width in [1440,768,390,320]:
+                  context=browser.new_context(viewport={'width':width,'height':1000},reduced_motion='reduce')
+                  for file in files:
+                      page=context.new_page()
+                      errors=[]
+                      page.on('pageerror',lambda e: errors.append(str(e)))
+                      response=page.goto('http://127.0.0.1:8765/'+file,wait_until='networkidle')
+                      assert response.status==200,(file,width,response.status)
+                      footer=page.locator('footer .footer-legal')
+                      link=footer.get_by_role('link',name='Privacy Policy',exact=True)
+                      terms=footer.get_by_role('link',name='Terms & Conditions',exact=True)
+                      assert link.count()==1,(file,width)
+                      assert link.get_attribute('href')=='/sms-privacy'
+                      footer.scroll_into_view_if_needed()
+                      metrics=footer.locator('a').evaluate_all('els=>els.map(e=>{const r=e.getBoundingClientRect(),s=getComputedStyle(e);return {label:e.textContent.trim(),x:r.x,y:r.y,w:r.width,h:r.height,color:s.color,font:s.fontSize};})')
+                      legal=footer.evaluate('e=>({scroll:e.scrollWidth,client:e.clientWidth})')
+                      assert legal['scroll']<=legal['client']+1,(file,width,'Footer overflow',legal)
+                      assert all(m['x']>=-1 and m['x']+m['w']<=width+1 for m in metrics),(file,width,'Link outside screen',metrics)
+                      pi=next(i for i,m in enumerate(metrics) if m['label']=='Privacy Policy')
+                      assert pi>0 and metrics[pi-1]['label']=='Terms & Conditions'
+                      a,b=metrics[pi-1],metrics[pi]
+                      if width>=390:
+                          assert abs(a['y']-b['y'])<2 and b['x']>=a['x']+a['w'],(file,width,'Not side by side',metrics)
+                      assert a['color']==b['color'] and a['font']==b['font'],(file,width,'Styles do not match',metrics)
+                      if width in [1440,390,320]:
+                          page.locator('footer').screenshot(path=str(out/'screenshots'/f'{Path(file).stem}-{width}.png'),animations='disabled')
+                      # A native click also verifies that no chat widget or other element covers the link.
+                      link.click(timeout=8000)
+                      page.wait_for_url('**/sms-privacy')
+                      assert page.get_by_role('heading',name='Privacy Policy',exact=True).count()==1
+                      assert 'GSG Meeting Notifications' in page.locator('main').inner_text()
+                      assert not errors,(file,width,errors)
+                      reports.append({'file':file,'width':width,'passed':True,'metrics':metrics,'javascript_errors':errors})
+                      page.close()
+                  context.close()
+              browser.close()
+          for file in files:
+              before=BeautifulSoup((out/'before'/file).read_text(),'html.parser')
+              after=BeautifulSoup(Path(file).read_text(),'html.parser')
+              for tag in ['main','header']:
+                  assert [str(t) for t in before.find_all(tag)]==[str(t) for t in after.find_all(tag)],(file,tag,'changed unexpectedly')
+          (out/'report.json').write_text(json.dumps(reports,indent=2))
+          print('PASS:',len(reports),'browser checks; all original main content and headers unchanged.')
+          server.shutdown()
+          PY
+      - name: Commit verified footer-only changes on the review branch
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import subprocess,json
+          files=json.loads(Path('/tmp/gotham-privacy-qa/changed-files.json').read_text())
+          workflow='.github/workflows/gotham-privacy-footer-update.yml'
+          Path(workflow).unlink()
+          subprocess.run(['git','add','--',*files,workflow],check=True)
+          PY
+          git -c user.name='Gotham website maintenance' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'Add Privacy Policy beside Terms and Conditions throughout website footers'
+          git push origin HEAD:update/privacy-footer-2026-10-16
+          git rev-parse HEAD > /tmp/gotham-privacy-qa/result-commit.txt
+      - name: Save the patch and browser screenshots for review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gotham-privacy-footer-checks
+          path: /tmp/gotham-privacy-qa
+          retention-days: 14
