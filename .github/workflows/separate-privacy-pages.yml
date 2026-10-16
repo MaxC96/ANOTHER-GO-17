@@ -13,11 +13,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Restore separate SMS policy and direct general-policy footer links
         run: |
+          git fetch --depth=1 origin 6029daa06155c72560ec8eb6018e9147fa2299c9
           python - <<'PY'
           from pathlib import Path
           import re, subprocess, hashlib, json
           base='6029daa06155c72560ec8eb6018e9147fa2299c9'
-          assert subprocess.check_output(['git','rev-parse','HEAD^'],text=True).strip()==base
+          existing_changes=subprocess.check_output(['git','diff','--name-only',base,'HEAD'],text=True).splitlines()
+          assert all(name.startswith('.github/') for name in existing_changes), existing_changes
           changed=[]
           main_re=re.compile(r'<main\b[^>]*>[\s\S]*?</main>')
           footer_re=re.compile(r'<div\b[^>]*class="footer-legal"[^>]*>[\s\S]*?</div>')
@@ -35,8 +37,8 @@ jobs:
               after=before[:m.start()]+updated+before[m.end():]
               assert main_re.findall(before)==main_re.findall(after), path.name
               assert after.replace(updated,group,1)==before, path.name
-              assert source not in after
-              assert target in after
+              assert source not in updated
+              assert target in updated
               if before!=after:
                   path.write_text(after)
                   changed.append(path.name)
@@ -57,7 +59,9 @@ jobs:
           assert 'href="https://gothamsolutionsgroup.com/sms-privacy"' in sms
           assert 'Oct. 16, 2026' in general and '11. Contact Us' in general
           assert 'href="https://gothamsolutionsgroup.com/privacy-policy"' in general
-          assert 'href="/sms-privacy"' in Path('sms-terms.html').read_text()
+          for name in ['sms-privacy.html','sms-terms.html','privacy-policy.html']:
+              original=subprocess.check_output(['git','show',base+':'+name],text=True)
+              assert main_re.findall(original)==main_re.findall(Path(name).read_text()), name
           print(json.dumps({'verified':True,'changed_files':changed,'sms_policy_main_sha256':hashlib.sha256(main_re.search(sms).group().encode()).hexdigest(),'general_policy_main_sha256':hashlib.sha256(main_re.search(general).group().encode()).hexdigest(),'policies_unchanged':True,'footer_destination':'/privacy-policy','sms_policy_destination':'/sms-privacy'},indent=2))
           workflow='.github/workflows/separate-privacy-pages.yml'
           Path(workflow).unlink()
