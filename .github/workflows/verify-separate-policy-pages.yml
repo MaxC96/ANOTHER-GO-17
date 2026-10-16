@@ -1,0 +1,78 @@
+name: Verify separate live privacy pages
+on:
+  push:
+    branches: [update/separate-sms-privacy-2026-10-16]
+    paths: [.github/workflows/verify-separate-policy-pages.yml]
+permissions:
+  contents: read
+jobs:
+  verify-live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: b391934d4bd5c437c8660281787733f4c95417dd
+      - name: Check published policy text and original SMS addresses
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from urllib.request import Request,urlopen
+          from urllib.parse import urlsplit
+          from concurrent.futures import ThreadPoolExecutor
+          import re,json,time,html
+          root='https://gothamsolutionsgroup.com'
+          main_re=re.compile(r'<main\b[^>]*>[\s\S]*?</main>')
+          legal_re=re.compile(r'<div\b[^>]*class="footer-legal"[^>]*>([\s\S]*?)</div>')
+          anchor_re=re.compile(r'<a\b[^>]*href="([^"]+)"[^>]*>([\s\S]*?)</a>')
+          routes=['/','/about','/contact','/cost-recovery-optimization','/infrastructure-design','/managed-services','/terms-and-conditions','/thank-you','/privacy-policy','/sms-privacy','/sms-terms','/sms-privacy.html','/privacy-policy.html','/sms-terms.html']
+          def norm(text):return re.sub(r'\s+',' ',text).strip()
+          def check(route):
+              result={'route':route,'verified':False}
+              for attempt in range(4):
+                  try:
+                      url=root+route+'?verify_separate_policy=b391934d-'+str(time.time_ns())
+                      with urlopen(Request(url,headers={'Cache-Control':'no-cache','User-Agent':'Gotham-Site-Verification'}),timeout=20) as response:
+                          text=response.read().decode('utf-8')
+                          status=response.status
+                          final=urlsplit(response.geturl()).path.rstrip('/') or '/'
+                      expected=route.removesuffix('.html')
+                      assert status==200,(route,status)
+                      assert final==expected,(route,'wrong final route',final,expected)
+                      legal=legal_re.search(text)
+                      assert legal,(route,'footer missing')
+                      links=[{'href':a,'label':html.unescape(re.sub(r'<[^>]+>','',b)).strip()} for a,b in anchor_re.findall(legal.group(1))]
+                      indexes=[i for i,a in enumerate(links) if a['label']=='Privacy Policy']
+                      assert len(indexes)==1,(route,links)
+                      i=indexes[0]
+                      assert links[i]['href']=='/privacy-policy',(route,links)
+                      assert i>0 and links[i-1]['href']=='/terms-and-conditions',(route,links)
+                      policy_matched=None
+                      if expected in ['/sms-privacy','/privacy-policy','/sms-terms']:
+                          source=Path(expected.lstrip('/')+'.html').read_text()
+                          assert norm(main_re.search(text).group())==norm(main_re.search(source).group()),(route,'published policy differs from source')
+                          policy_matched=True
+                      if expected=='/sms-privacy':
+                          assert 'October 13, 2026' in text and 'GSG Meeting Notifications' in text
+                          assert '<title>SMS Privacy Policy | Gotham Solutions Group</title>' in text
+                      if expected=='/privacy-policy':
+                          assert 'Oct. 16, 2026' in text and '11. Contact Us' in text
+                      result={'route':route,'status':status,'final_route':final,'verified':True,'footer_links':links,'policy_text_matches_source':policy_matched,'attempt':attempt+1}
+                      break
+                  except Exception as e:
+                      result={'route':route,'verified':False,'error':str(e),'attempt':attempt+1}
+                      if attempt<3:time.sleep(12)
+              return result
+          with ThreadPoolExecutor(max_workers=5) as pool:reports=list(pool.map(check,routes))
+          Path('/tmp/gotham-separate-policy-live-check.json').write_text(json.dumps(reports,indent=2))
+          for report in reports:print(json.dumps(report),flush=True)
+          assert all(r['verified'] for r in reports),'One or more live checks did not pass.'
+          print('SUCCESS: Original SMS privacy and terms pages, new general privacy page, HTML aliases, and all general footer links are verified live.')
+          PY
+      - name: Save live verification results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gotham-separate-policy-live-check
+          path: /tmp/gotham-separate-policy-live-check.json
+          retention-days: 14
